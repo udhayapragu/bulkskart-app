@@ -10,6 +10,17 @@ import {
   findMockupCompany,
 } from '@/data/mockupVerifiedSuppliers';
 import type { Category, Company, CompanyCertification, CompanyReview, Product, Requirement, Quotation, Conversation, Message, Notification, Profile, OrderRow, SupplierInquiry, InquiryReply } from '@/types/types';
+import { SAMPLE_CATALOG_ENABLED } from '@/config/catalog';
+
+/**
+ * Bundled sample data, gated by VITE_SAMPLE_CATALOG. Empty by default, so listings, product
+ * pages and supplier pages show only database records.
+ */
+const SAMPLE_MOCKUP_COMPANIES = SAMPLE_CATALOG_ENABLED ? MOCKUP_VERIFIED_COMPANIES : [];
+const SAMPLE_ALIBABA_COMPANIES = SAMPLE_CATALOG_ENABLED ? ALIBABA_VERIFIED_SUPPLIERS : [];
+const SAMPLE_GLOBAL_PRODUCTS = SAMPLE_CATALOG_ENABLED ? EXPANDED_GLOBAL_PRODUCTS : [];
+const SAMPLE_CURATED_PRODUCTS = SAMPLE_CATALOG_ENABLED ? CURATED_INDUSTRIAL_PRODUCTS : [];
+const SAMPLE_SUPPLIER_PRODUCT_LISTS = SAMPLE_CATALOG_ENABLED ? Object.values(MOCKUP_SUPPLIER_PRODUCTS) : [];
 
 function mapGlobalToProduct(gp: GlobalCatalogProduct): Product {
   return {
@@ -290,7 +301,7 @@ export async function getCompanies(options?: {
   }
 
   const searchQ = options?.search?.trim().toLowerCase();
-  const filteredMockup = MOCKUP_VERIFIED_COMPANIES.filter((s) => {
+  const filteredMockup = SAMPLE_MOCKUP_COMPANIES.filter((s) => {
     if (options?.verified && !s.is_verified) return false;
     if (options?.featured && !s.is_featured) return false;
     if (options?.country && options.country !== 'all' && s.country.toLowerCase() !== options.country.toLowerCase()) {
@@ -310,7 +321,7 @@ export async function getCompanies(options?: {
   });
 
   // Filter Alibaba Verified Suppliers dataset
-  const filteredAlibaba = ALIBABA_VERIFIED_SUPPLIERS.filter((s) => {
+  const filteredAlibaba = SAMPLE_ALIBABA_COMPANIES.filter((s) => {
     if (options?.verified && !s.is_verified) return false;
     if (options?.featured && !s.is_featured) return false;
     if (options?.country && options.country !== 'all' && s.country.toLowerCase() !== options.country.toLowerCase()) {
@@ -340,7 +351,7 @@ export async function getCompanyBySlug(slug: string): Promise<Company | null> {
   const cleanSlug = slug.trim().toLowerCase();
 
   // 1. Check Mockup / Showcase Verified Registry
-  const mockupCompany = findMockupCompany(cleanSlug);
+  const mockupCompany = SAMPLE_CATALOG_ENABLED ? findMockupCompany(cleanSlug) : null;
   if (mockupCompany) return mockupCompany;
 
   // 2. Check Supabase by exact slug
@@ -368,11 +379,11 @@ export async function getCompanyBySlug(slug: string): Promise<Company | null> {
   }
 
   // 4. Check Alibaba dataset by exact slug
-  const alibabaSupplier = getAlibabaSupplierBySlug(cleanSlug);
+  const alibabaSupplier = SAMPLE_CATALOG_ENABLED ? getAlibabaSupplierBySlug(cleanSlug) : null;
   if (alibabaSupplier) return alibabaSupplier;
 
   // 5. Check Alibaba dataset by ID or name matching
-  const matchAlibaba = ALIBABA_VERIFIED_SUPPLIERS.find(
+  const matchAlibaba = SAMPLE_ALIBABA_COMPANIES.find(
     s => s.id.toLowerCase() === cleanSlug ||
          s.slug.toLowerCase() === cleanSlug ||
          s.company_name.toLowerCase().replace(/[^a-z0-9]/g, '-') === cleanSlug
@@ -437,7 +448,7 @@ export async function getProducts(options?: {
   const searchLower = options?.search ? options.search.trim().toLowerCase() : '';
   const countryFilter = options?.country && options.country !== 'all' ? options.country.toLowerCase() : '';
 
-  const matchingGlobal = EXPANDED_GLOBAL_PRODUCTS.filter(p => {
+  const matchingGlobal = SAMPLE_GLOBAL_PRODUCTS.filter(p => {
     if (options?.categoryId && p.category_id !== options.categoryId && p.category_slug !== options.categoryId) return false;
     if (options?.categorySlug && p.category_slug !== options.categorySlug) return false;
     if (options?.companyId && p.company_id !== options.companyId) return false;
@@ -464,7 +475,7 @@ export async function getProducts(options?: {
 
   // Only include products from MOCKUP_SUPPLIER_PRODUCTS for public catalog exploration when no specific companyId filter is active
   if (!options?.companyId) {
-    for (const mList of Object.values(MOCKUP_SUPPLIER_PRODUCTS)) {
+    for (const mList of SAMPLE_SUPPLIER_PRODUCT_LISTS) {
       for (const mp of mList) {
         if (!seenIds.has(mp.id) && !seenSlugs.has(mp.slug)) {
           seenIds.add(mp.id);
@@ -477,7 +488,7 @@ export async function getProducts(options?: {
 
   // Only include curated products for general public discovery, never when querying a specific supplier's company
   if (!options?.companyId) {
-    for (const cp of CURATED_INDUSTRIAL_PRODUCTS) {
+    for (const cp of SAMPLE_CURATED_PRODUCTS) {
       if (options?.categoryId && cp.categorySlug !== options.categoryId) continue;
       if (countryFilter && cp.country.toLowerCase() !== countryFilter) continue;
       if (searchLower && !cp.name.toLowerCase().includes(searchLower)) continue;
@@ -496,7 +507,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   if (!slug) return null;
 
   // 1. Check MOCKUP_SUPPLIER_PRODUCTS
-  for (const list of Object.values(MOCKUP_SUPPLIER_PRODUCTS)) {
+  for (const list of SAMPLE_SUPPLIER_PRODUCT_LISTS) {
     const found = list.find(p => p.slug === slug || p.id === slug);
     if (found) return found;
   }
@@ -520,21 +531,21 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     if (byId) return byId;
   }
 
-  // 3. Check EXPANDED_GLOBAL_PRODUCTS by slug or id
-  const fromGlobal = EXPANDED_GLOBAL_PRODUCTS.find(p => p.slug === slug || p.id === slug);
+  // 3. Check SAMPLE_GLOBAL_PRODUCTS by slug or id
+  const fromGlobal = SAMPLE_GLOBAL_PRODUCTS.find(p => p.slug === slug || p.id === slug);
   if (fromGlobal) {
     return mapGlobalToProduct(fromGlobal);
   }
 
-  // 4. Check CURATED_INDUSTRIAL_PRODUCTS by slug or id
-  const fromCurated = CURATED_INDUSTRIAL_PRODUCTS.find(p => p.slug === slug || p.id === slug);
+  // 4. Check SAMPLE_CURATED_PRODUCTS by slug or id
+  const fromCurated = SAMPLE_CURATED_PRODUCTS.find(p => p.slug === slug || p.id === slug);
   if (fromCurated) {
     return mapCuratedToProduct(fromCurated);
   }
 
-  // 5. Relaxed / fuzzy slug match in EXPANDED_GLOBAL_PRODUCTS
+  // 5. Relaxed / fuzzy slug match in SAMPLE_GLOBAL_PRODUCTS
   const normalized = slug.toLowerCase();
-  const fuzzyGlobal = EXPANDED_GLOBAL_PRODUCTS.find(p => 
+  const fuzzyGlobal = SAMPLE_GLOBAL_PRODUCTS.find(p => 
     p.slug.toLowerCase().includes(normalized) || 
     normalized.includes(p.slug.toLowerCase()) ||
     p.name.toLowerCase().includes(normalized)
@@ -544,8 +555,8 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 
   // 6. Return first matching global product as safety fallback so product page never crashes with 404
-  if (EXPANDED_GLOBAL_PRODUCTS.length > 0) {
-    return mapGlobalToProduct(EXPANDED_GLOBAL_PRODUCTS[0]);
+  if (SAMPLE_GLOBAL_PRODUCTS.length > 0) {
+    return mapGlobalToProduct(SAMPLE_GLOBAL_PRODUCTS[0]);
   }
 
   return null;
@@ -566,7 +577,7 @@ export async function getSimilarProducts(categoryId: string | null, excludeId: s
   let result: Product[] = Array.isArray(data) ? [...data] : [];
 
   if (result.length < 6 && categoryId) {
-    const globals = EXPANDED_GLOBAL_PRODUCTS.filter(
+    const globals = SAMPLE_GLOBAL_PRODUCTS.filter(
       p => (p.category_id === categoryId || p.category_slug === categoryId) && p.id !== excludeId
     ).slice(0, 8 - result.length);
     result.push(...globals.map(mapGlobalToProduct));
@@ -1475,6 +1486,8 @@ export function ensureManufacturerWelcomeLeads(
   options?: { force?: boolean }
 ): { seeded: boolean; inquiries: SupplierInquiry[] } {
   if (!companyId) return { seeded: false, inquiries: [] };
+  // Sample buyer leads are demo data. They are created only when VITE_SAMPLE_CATALOG=true.
+  if (!SAMPLE_CATALOG_ENABLED) return { seeded: false, inquiries: getSupplierInquiries(companyId) };
 
   if (!options?.force && hasManufacturerWelcomeLeads(companyId)) {
     return { seeded: false, inquiries: getSupplierInquiries(companyId) };

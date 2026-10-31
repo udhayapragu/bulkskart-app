@@ -342,9 +342,9 @@ export default function ManufacturersPage() {
 
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(() => new URLSearchParams(window.location.search).get('q') ?? '');
   const [verifiedOnly, setVerifiedOnly] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState('all');
+  const [selectedCountry, setSelectedCountry] = useState(() => new URLSearchParams(window.location.search).get('country') ?? 'all');
   const [selectedIndustry, setSelectedIndustry] = useState('all');
   const [minRating, setMinRating] = useState('all');
   const [selectedMoq, setSelectedMoq] = useState('all');

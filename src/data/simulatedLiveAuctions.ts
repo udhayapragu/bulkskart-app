@@ -1,11 +1,10 @@
 /**
- * Temporary always-on live-auction simulation for marketplace presence.
- * Anonymous factory labels only — no real person names.
- * Toggle off via VITE_SIMULATED_AUCTIONS=false when real inventory is enough.
+ * Simulated auctions are demo data and are off by default. Set VITE_SIMULATED_AUCTIONS=true
+ * at build time only for a demo. Listings and the homepage show database auctions otherwise.
  */
 
 export const SIMULATED_AUCTIONS_ENABLED =
-  String(import.meta.env.VITE_SIMULATED_AUCTIONS ?? 'true').toLowerCase() !== 'false';
+  String(import.meta.env.VITE_SIMULATED_AUCTIONS ?? 'false').toLowerCase() === 'true';
 
 export const SIMULATED_ID_PREFIX = 'sim-auc-';
 
