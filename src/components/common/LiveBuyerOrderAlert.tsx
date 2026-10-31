@@ -34,6 +34,7 @@ import {
 import SupplierRespondDialog from '@/components/common/SupplierRespondDialog';
 import type { Requirement } from '@/types/types';
 import { toast } from 'sonner';
+import { wouldCoverKeepClear } from '@/lib/keepClear';
 
 export type AlertAppearance = 'modal' | 'pill';
 const ROTATE_MS = 18000;
@@ -146,7 +147,11 @@ export default function LiveBuyerOrderAlert() {
   }, [playChime]);
 
   useEffect(() => {
-    const t = setTimeout(() => setEntered(true), 2800);
+    const t = setTimeout(() => {
+      // Do not open over the page's main buttons. The visitor can still expand the pill.
+      if (wouldCoverKeepClear(location.pathname === '/')) setAppearance('pill');
+      setEntered(true);
+    }, 2800);
     return () => clearTimeout(t);
   }, []);
 
@@ -337,13 +342,15 @@ export default function LiveBuyerOrderAlert() {
     location.pathname.includes('/auth') ||
     location.pathname.includes('/settings');
 
+  const dock = location.pathname === '/' ? 'bottom-[calc(1rem+env(safe-area-inset-bottom))]' : 'bottom-24';
+
   if (isExcludedPage || !entered) {
     return null;
   }
 
   if (isDismissed || appearance === 'pill') {
     return (
-      <div className="fixed bottom-24 sm:bottom-6 left-3 sm:left-4 z-40">
+      <div className={`fixed ${dock} sm:bottom-6 left-3 sm:left-4 z-40`}>
         <button
           type="button"
           onClick={handleRestore}
@@ -363,7 +370,7 @@ export default function LiveBuyerOrderAlert() {
   return (
     <>
       <div
-        className={`fixed bottom-24 sm:bottom-6 left-3 sm:left-4 z-40 w-[min(100vw-1.5rem,380px)] transition-all duration-300 ${
+        className={`fixed ${dock} sm:bottom-6 left-3 sm:left-4 z-40 w-[min(100vw-5rem,380px)] sm:w-[min(100vw-1.5rem,380px)] transition-all duration-300 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
         }`}
         onMouseEnter={() => setIsHovered(true)}

@@ -150,7 +150,7 @@ export default function Header() {
         </Link>
 
         {/* Search bar — desktop */}
-        <form onSubmit={handleSearch} className="hidden md:flex flex-1 min-w-[140px] max-w-[420px] lg:max-w-[500px] items-center bg-muted border border-border rounded-lg h-9 px-3 gap-2 focus-within:border-primary/60 focus-within:ring-1 focus-within:ring-primary/30 transition-all">
+        <form onSubmit={handleSearch} className="hidden md:flex flex-1 min-w-[140px] max-w-[420px] lg:max-w-[500px] items-center bg-muted border border-border rounded-lg h-9 px-3 gap-2 overflow-hidden focus-within:border-primary/60 focus-within:ring-1 focus-within:ring-primary/30 transition-all">
           <Search className="w-4 h-4 text-muted-foreground shrink-0" />
           <input
             ref={searchInputRef}
@@ -158,7 +158,7 @@ export default function Header() {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search products, suppliers, categories…"
-            className="flex-1 bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground outline-none"
+            className="flex-1 min-w-0 bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground outline-none"
           />
           <Button type="submit" size="sm" className="h-7 px-3 text-[12px] bg-primary text-white rounded-md shrink-0">
             Search

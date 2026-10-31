@@ -1,0 +1,1135 @@
+/*
+ * Cinematic hero. Everything is scoped under .cin-hero and prefixed cin-.
+ * Rules of the road: animate only transform and opacity, keep layers few, pause when off-screen,
+ * and drop the heavy layers on phones and for people who ask for reduced motion.
+ */
+
+.cin-hero {
+  --cin-bg: #080b13;
+  --cin-orange: #ff5a00;
+  --cin-orange-2: #ff8a24;
+  --cin-teal: #00d6a3;
+  --cin-card: #101827;
+  --horizon-h: clamp(128px, 34vw, 220px);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--cin-bg);
+  color: #fff;
+}
+
+/* ---------- Ambient background (whole hero) ---------- */
+
+.cin-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cin-sky {
+  position: absolute;
+  inset: 0;
+  /* Kept to two layers: this is painted on the very first frame. The richer light arrives with .cin-fx. */
+  background:
+    radial-gradient(60% 46% at 82% 24%, rgba(255, 90, 0, 0.18), transparent 72%),
+    linear-gradient(180deg, #0c1224 0%, #080b13 52%, #070a11 100%);
+}
+
+.cin-stars {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: min(100%, 900px);
+  opacity: 0.6;
+  background-repeat: no-repeat;
+  background-image:
+    radial-gradient(1.2px 1.2px at 6% 8%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 14% 31%, #fff, transparent 60%),
+    radial-gradient(1.4px 1.4px at 22% 12%, #cfe3ff, transparent 60%),
+    radial-gradient(1px 1px at 31% 44%, #fff, transparent 60%),
+    radial-gradient(1.2px 1.2px at 38% 6%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 47% 24%, #ffd9b8, transparent 60%),
+    radial-gradient(1.4px 1.4px at 55% 9%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 63% 38%, #cfe3ff, transparent 60%),
+    radial-gradient(1.2px 1.2px at 71% 15%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 79% 5%, #fff, transparent 60%),
+    radial-gradient(1.2px 1.2px at 86% 27%, #ffd9b8, transparent 60%),
+    radial-gradient(1px 1px at 93% 11%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 9% 52%, #fff, transparent 60%),
+    radial-gradient(1.2px 1.2px at 27% 63%, #cfe3ff, transparent 60%),
+    radial-gradient(1px 1px at 52% 55%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 68% 61%, #fff, transparent 60%),
+    radial-gradient(1.2px 1.2px at 90% 48%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 96% 70%, #cfe3ff, transparent 60%);
+}
+
+/* Layers that mount after the first paint fade in, so the headline is never waiting on them. */
+.cin-fx {
+  position: absolute;
+  inset: 0;
+  animation: cin-fade-in 1s ease both;
+}
+
+.cin-layer,
+.cin-zoom {
+  position: absolute;
+  inset: 0;
+}
+
+.cin-glow,
+.cin-smoke {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.cin-glow-1 {
+  width: 70vmax;
+  height: 70vmax;
+  right: -24vmax;
+  top: -26vmax;
+  background: radial-gradient(closest-side, rgba(255, 90, 0, 0.27), rgba(255, 90, 0, 0.08) 55%, transparent 76%);
+  animation: cin-drift-a 26s ease-in-out infinite alternate;
+}
+
+.cin-glow-2 {
+  width: 56vmax;
+  height: 56vmax;
+  left: -22vmax;
+  bottom: -20vmax;
+  background: radial-gradient(closest-side, rgba(0, 214, 163, 0.14), transparent 72%);
+  animation: cin-drift-b 32s ease-in-out infinite alternate;
+}
+
+.cin-glow-3 {
+  width: 46vmax;
+  height: 46vmax;
+  left: 28%;
+  top: 14%;
+  background: radial-gradient(closest-side, rgba(255, 138, 36, 0.12), transparent 70%);
+  animation: cin-drift-c 38s ease-in-out infinite alternate;
+}
+
+.cin-smoke-1 {
+  width: 62vmax;
+  height: 34vmax;
+  left: -12vmax;
+  top: 26%;
+  background: radial-gradient(closest-side, rgba(176, 198, 255, 0.075), transparent 70%);
+  animation: cin-drift-b 46s ease-in-out infinite alternate;
+}
+
+.cin-smoke-2 {
+  width: 54vmax;
+  height: 30vmax;
+  right: -14vmax;
+  bottom: 22%;
+  background: radial-gradient(closest-side, rgba(255, 138, 36, 0.08), transparent 70%);
+  animation: cin-drift-a 54s ease-in-out infinite alternate;
+}
+
+.cin-sweep {
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  width: 42%;
+  opacity: 0;
+  transform: translate3d(-130%, 0, 0) skewX(-18deg);
+  background: linear-gradient(
+    90deg,
+    transparent 0,
+    rgba(255, 138, 36, 0) 8%,
+    rgba(255, 138, 36, 0.15) 46%,
+    rgba(255, 232, 205, 0.2) 50%,
+    rgba(255, 138, 36, 0.15) 54%,
+    rgba(255, 138, 36, 0) 92%,
+    transparent 100%
+  );
+  animation: cin-sweep 10.5s cubic-bezier(0.4, 0, 0.2, 1) 2.4s infinite;
+}
+
+.cin-trail {
+  position: absolute;
+  left: -34%;
+  width: 34%;
+  height: 2px;
+  border-radius: 2px;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 138, 36, 0.05) 10%, rgba(255, 138, 36, 0.85) 86%, rgba(255, 238, 215, 0.95));
+  box-shadow: 0 0 10px rgba(255, 138, 36, 0.55);
+  animation: cin-trail 9s linear infinite;
+}
+.cin-trail-1 {
+  top: 21%;
+  animation-delay: 1.2s;
+}
+.cin-trail-2 {
+  top: 46%;
+  width: 26%;
+  animation-duration: 11.5s;
+  animation-delay: 5.8s;
+}
+.cin-trail-3 {
+  top: 69%;
+  width: 30%;
+  animation-duration: 13s;
+  animation-delay: 9.2s;
+}
+
+.cin-particles {
+  position: absolute;
+  inset: 0;
+  container-type: size;
+}
+
+.cin-p {
+  position: absolute;
+  left: var(--x);
+  bottom: -8px;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(circle, rgba(255, 176, 100, 0.95), rgba(255, 90, 0, 0.35) 60%, transparent 72%);
+  animation: cin-rise var(--d) linear var(--t) infinite;
+}
+
+/* ---------- Scene: Earth, aircraft, port, ship, truck ---------- */
+
+.cin-top {
+  position: relative;
+  padding: 20px 16px calc(var(--horizon-h) + 14px);
+}
+
+.cin-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cin-earth {
+  position: absolute;
+  z-index: 1;
+  width: min(112vw, 540px);
+  aspect-ratio: 1;
+  right: -30vw;
+  top: 34px;
+}
+
+.cin-earth-halo {
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, transparent 60%, rgba(255, 90, 0, 0.22) 68%, rgba(255, 90, 0, 0.09) 78%, transparent 96%),
+    radial-gradient(48% 48% at 78% 66%, rgba(255, 90, 0, 0.2), transparent 72%);
+  animation: cin-breathe 7s ease-in-out infinite;
+}
+
+.cin-earth-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.cin-earth-canvas[data-ready='true'] {
+  opacity: 1;
+}
+
+.cin-orbit {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  overflow: visible;
+}
+
+.cin-plane-lane {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.cin-plane {
+  position: absolute;
+  left: 0;
+  top: 22%;
+  width: clamp(92px, 19vw, 230px);
+  opacity: 0;
+  animation: cin-fly 40s linear 3s infinite;
+}
+.cin-plane::after {
+  content: '';
+  position: absolute;
+  right: 96%;
+  top: 50%;
+  width: 280%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 206, 160, 0.55));
+}
+.cin-plane-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cin-horizon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  height: var(--horizon-h);
+}
+
+.cin-port {
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  bottom: 30%;
+  height: 80%;
+  opacity: 0.95;
+}
+.cin-port-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cin-horizon-glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 28%;
+  height: 90%;
+  background: radial-gradient(90% 90% at 55% 100%, rgba(255, 128, 36, 0.66), rgba(255, 90, 0, 0.22) 50%, transparent 82%);
+}
+
+.cin-sea {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  background:
+    linear-gradient(180deg, rgba(255, 138, 36, 0.42), rgba(255, 90, 0, 0.12) 26%, rgba(8, 11, 19, 0.94) 100%),
+    linear-gradient(180deg, #101a30, #080b13);
+}
+.cin-sea::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(180deg, rgba(255, 170, 100, 0.2) 0 1px, transparent 1px 7px);
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent);
+  mask-image: linear-gradient(180deg, #000, transparent);
+  animation: cin-shimmer 7s ease-in-out infinite alternate;
+}
+
+.cin-ship-lane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16%;
+  height: 74%;
+}
+.cin-ship {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: clamp(220px, 40vw, 480px);
+  animation: cin-sail 120s linear -52s infinite;
+}
+.cin-ship-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: 50% 88%;
+  animation: cin-bob 6.5s ease-in-out infinite;
+}
+
+.cin-truck-lane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 46%;
+  height: 30%;
+}
+.cin-road {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0 14px, transparent 14px 32px);
+}
+.cin-truck {
+  position: absolute;
+  left: 0;
+  bottom: 3px;
+  width: clamp(110px, 12vw, 190px);
+  animation: cin-drive 52s linear -20s infinite;
+}
+.cin-truck-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cin-strobe {
+  animation: cin-blink 2.4s steps(1, end) infinite;
+}
+.cin-strobe-b {
+  animation-delay: 1.1s;
+}
+.cin-beacon {
+  animation: cin-blink 3s steps(1, end) infinite;
+}
+
+/* Keeps copy readable: dark on the text side, clear on the Earth side. */
+.cin-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    linear-gradient(100deg, rgba(8, 11, 19, 0.9) 0%, rgba(8, 11, 19, 0.66) 46%, rgba(8, 11, 19, 0.08) 100%),
+    linear-gradient(180deg, rgba(8, 11, 19, 0.35) 0%, transparent 22%, transparent 78%, rgba(8, 11, 19, 0.6) 100%);
+}
+
+/* ---------- Copy ---------- */
+
+.cin-copy {
+  position: relative;
+  z-index: 10;
+  max-width: 34rem;
+}
+
+.cin-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 90, 0, 0.4);
+  border-radius: 999px;
+  background: rgba(255, 90, 0, 0.1);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.cin-h1 {
+  margin: 16px 0 0;
+  font-size: clamp(2.05rem, 10.4vw, 3.1rem);
+  font-weight: 900;
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+}
+.cin-accent {
+  background: linear-gradient(90deg, var(--cin-orange), var(--cin-orange-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+}
+
+.cin-sub {
+  margin: 14px 0 0;
+  max-width: 30rem;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
+}
+
+.cin-feats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.cin-feat {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 13px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-decoration: none;
+  transition: background-color 0.25s, border-color 0.25s, transform 0.25s;
+}
+.cin-feat-teal {
+  border: 1px solid rgba(0, 214, 163, 0.5);
+  background: rgba(0, 214, 163, 0.1);
+  color: #7ff2d3;
+}
+.cin-feat-orange {
+  border: 1px solid rgba(255, 90, 0, 0.55);
+  background: rgba(255, 90, 0, 0.12);
+  color: #ffb98a;
+}
+
+.cin-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 22px;
+}
+.cin-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 14px;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.25s, box-shadow 0.25s, background-color 0.25s, border-color 0.25s;
+}
+.cin-btn-primary {
+  color: #fff;
+  background: linear-gradient(135deg, var(--cin-orange), var(--cin-orange-2));
+  box-shadow: 0 10px 28px -8px rgba(255, 90, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+.cin-btn-ghost {
+  color: #fff;
+  border: 1px solid rgba(255, 138, 36, 0.6);
+  background: rgba(16, 24, 39, 0.72);
+}
+.cin-btn:active {
+  transform: scale(0.985);
+}
+
+.cin-hero a:focus-visible,
+.cin-hero button:focus-visible,
+.cin-hero select:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ---------- Search panel ---------- */
+
+.cin-panel-wrap {
+  position: relative;
+  z-index: 10;
+  padding: 0 16px 28px;
+}
+.cin-panel {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
+  background: rgba(16, 24, 39, 0.94);
+  box-shadow: 0 14px 30px -20px rgba(0, 0, 0, 0.75);
+}
+.cin-panel-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+}
+.cin-panel-sub {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.cin-form {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 14px;
+  padding: 4px 4px 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  background: #0a1020;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.cin-form:focus-within {
+  border-color: var(--cin-orange);
+  box-shadow: 0 0 0 3px rgba(255, 90, 0, 0.25);
+}
+.cin-select {
+  flex: none;
+  max-width: 36%;
+  min-width: 0;
+  padding: 0 8px 0 0;
+  border: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+}
+.cin-select option {
+  color: #0b1020;
+  background: #fff;
+}
+.cin-input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+}
+.cin-input::placeholder {
+  color: rgba(255, 255, 255, 0.52);
+}
+.cin-submit {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--cin-orange), var(--cin-orange-2));
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cin-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-bottom: 2px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  -webkit-mask-image: linear-gradient(90deg, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, #000 90%, transparent);
+}
+.cin-chips::-webkit-scrollbar {
+  display: none;
+}
+.cin-chips-label {
+  flex: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.62);
+}
+.cin-chip {
+  flex: none;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+}
+
+.cin-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.cin-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.cin-stat-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 90, 0, 0.14);
+  color: var(--cin-orange-2);
+}
+.cin-stat-value {
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #fff;
+}
+.cin-stat-label {
+  overflow: hidden;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.64);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Entrance ---------- */
+
+.cin-in {
+  animation: cin-rise-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: var(--delay, 0ms);
+}
+.cin-slide {
+  animation: cin-slide-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+/* The main text is never fully transparent, so it counts as painted on the very first frame. */
+.cin-soft {
+  animation: cin-soft-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes cin-rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cin-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cin-soft-in {
+  from {
+    opacity: 0.55;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cin-slide-in {
+  from {
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes cin-drift-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-4%, 6%, 0) scale(1.1);
+  }
+}
+@keyframes cin-drift-b {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(7%, -5%, 0) scale(1.08);
+  }
+}
+@keyframes cin-drift-c {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  to {
+    transform: translate3d(-8%, 7%, 0) scale(1.12);
+  }
+}
+@keyframes cin-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+@keyframes cin-breathe {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes cin-sweep {
+  0% {
+    transform: translate3d(-130%, 0, 0) skewX(-18deg);
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  34% {
+    transform: translate3d(330%, 0, 0) skewX(-18deg);
+    opacity: 1;
+  }
+  40%,
+  100% {
+    transform: translate3d(330%, 0, 0) skewX(-18deg);
+    opacity: 0;
+  }
+}
+@keyframes cin-trail {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-13deg);
+    opacity: 0;
+  }
+  4% {
+    opacity: 0.9;
+  }
+  24% {
+    transform: translate3d(420%, -30px, 0) rotate(-13deg);
+    opacity: 0.8;
+  }
+  28%,
+  100% {
+    transform: translate3d(420%, -30px, 0) rotate(-13deg);
+    opacity: 0;
+  }
+}
+@keyframes cin-rise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--o, 0.8);
+  }
+  85% {
+    opacity: calc(var(--o, 0.8) * 0.55);
+  }
+  100% {
+    transform: translate3d(var(--dx, 18px), -105vh, 0);
+    transform: translate3d(var(--dx, 18px), -105cqh, 0);
+    opacity: 0;
+  }
+}
+@keyframes cin-fly {
+  0% {
+    transform: translate3d(-34vw, 46px, 0) rotate(-5deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  60% {
+    transform: translate3d(112vw, -96px, 0) rotate(-5deg);
+    opacity: 1;
+  }
+  64%,
+  100% {
+    transform: translate3d(112vw, -96px, 0) rotate(-5deg);
+    opacity: 0;
+  }
+}
+@keyframes cin-sail {
+  from {
+    transform: translate3d(-110%, 0, 0);
+  }
+  to {
+    transform: translate3d(100vw, 0, 0);
+  }
+}
+@keyframes cin-drive {
+  from {
+    transform: translate3d(-110%, 0, 0);
+  }
+  to {
+    transform: translate3d(100vw, 0, 0);
+  }
+}
+@keyframes cin-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -1.6px, 0) rotate(-0.35deg);
+  }
+}
+@keyframes cin-shimmer {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.55;
+  }
+  to {
+    transform: translate3d(0, 3px, 0);
+    opacity: 1;
+  }
+}
+@keyframes cin-blink {
+  0%,
+  86% {
+    opacity: 1;
+  }
+  90%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+/* ---------- Phones: fewer layers, nothing heavy ---------- */
+
+@media (max-width: 767px) {
+  .cin-smoke,
+  .cin-glow-3,
+  .cin-truck-lane,
+  .cin-trail-3,
+  .cin-orbit {
+    display: none;
+  }
+  .cin-p:nth-child(n + 9) {
+    display: none;
+  }
+}
+
+/* ---------- Short phones: buttons right under the text, tighter rhythm ---------- */
+
+@media (max-width: 639px) and (max-height: 700px) {
+  .cin-top {
+    padding-top: 14px;
+  }
+  .cin-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cin-h1 {
+    margin-top: 10px;
+    font-size: clamp(1.85rem, 9.2vw, 2.4rem);
+  }
+  .cin-sub {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .cin-ctas {
+    order: 3;
+    width: 100%;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .cin-feats {
+    order: 4;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .cin-feat {
+    min-height: 32px;
+    font-size: 12px;
+  }
+  .cin-btn {
+    min-height: 46px;
+  }
+}
+
+/* ---------- Tablet and up ---------- */
+
+@media (min-width: 640px) {
+  .cin-top {
+    padding: 36px 24px calc(var(--horizon-h) + 18px);
+  }
+  .cin-earth {
+    width: min(84vw, 640px);
+    right: -16vw;
+    top: 10px;
+  }
+  .cin-h1 {
+    font-size: clamp(3rem, 7vw, 3.75rem);
+  }
+  .cin-sub {
+    font-size: 16.5px;
+  }
+  .cin-ctas {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .cin-btn {
+    min-height: 50px;
+  }
+  .cin-panel-wrap {
+    padding: 0 24px 32px;
+  }
+  .cin-panel {
+    padding: 22px;
+  }
+}
+
+@media (min-width: 768px) {
+  .cin-zoom {
+    animation: cin-zoom 44s ease-in-out infinite alternate;
+  }
+  .cin-panel {
+    background: rgba(16, 24, 39, 0.9);
+  }
+  .cin-chips {
+    flex-wrap: wrap;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .cin-accent {
+    filter: drop-shadow(0 0 22px rgba(255, 90, 0, 0.4));
+  }
+}
+
+@media (min-width: 1024px) {
+  .cin-top {
+    display: flex;
+    align-items: center;
+    min-height: min(calc(100vh - 96px), 860px);
+    min-height: min(calc(100svh - 96px), 860px);
+    padding: 40px 40px calc(var(--horizon-h) + 44px);
+  }
+  .cin-top > .cin-copy {
+    width: 100%;
+    margin-inline: max(0px, calc((100% - 1320px) / 2));
+  }
+  .cin-copy {
+    max-width: 36rem;
+  }
+  .cin-h1 {
+    font-size: clamp(3.4rem, 5.2vw, 4.6rem);
+  }
+  .cin-earth {
+    width: min(56vw, 840px);
+    right: -1vw;
+    top: auto;
+    bottom: -14%;
+  }
+  .cin-scrim {
+    background:
+      linear-gradient(90deg, rgba(8, 11, 19, 0.92) 0%, rgba(8, 11, 19, 0.7) 34%, rgba(8, 11, 19, 0.2) 62%, transparent 100%),
+      linear-gradient(180deg, rgba(8, 11, 19, 0.3) 0%, transparent 20%, transparent 80%, rgba(8, 11, 19, 0.55) 100%);
+  }
+  .cin-panel-wrap {
+    margin-top: -56px;
+    padding: 0 40px 44px;
+  }
+  .cin-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: center;
+    padding: 26px 30px;
+  }
+  .cin-stats {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+@media (min-width: 1536px) {
+  .cin-earth {
+    width: min(48vw, 940px);
+    right: 2vw;
+  }
+}
+
+/* Hover effects only where there is a real pointer. */
+@media (hover: hover) and (pointer: fine) {
+  .cin-btn:hover {
+    transform: translateY(-2px);
+  }
+  .cin-btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.38) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.7s;
+  }
+  .cin-btn-primary:hover {
+    box-shadow: 0 16px 38px -8px rgba(255, 90, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+  .cin-btn-primary:hover::after {
+    transform: translateX(120%);
+  }
+  .cin-btn-ghost:hover {
+    border-color: var(--cin-orange-2);
+    background: rgba(255, 90, 0, 0.16);
+  }
+  .cin-feat:hover {
+    transform: translateY(-1px);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .cin-chip:hover {
+    border-color: var(--cin-orange);
+    color: #ffb98a;
+    background: rgba(255, 90, 0, 0.1);
+  }
+  .cin-submit:hover {
+    transform: scale(1.06);
+    box-shadow: 0 8px 20px -6px rgba(255, 90, 0, 0.8);
+  }
+  .cin-stat {
+    transition: border-color 0.25s, background-color 0.25s;
+  }
+  .cin-stat:hover {
+    border-color: rgba(255, 138, 36, 0.4);
+    background: rgba(255, 138, 36, 0.07);
+  }
+}
+
+/* Off-screen or background tab: freeze every animation. */
+.cin-hero[data-active='false'] *,
+.cin-hero[data-active='false'] *::before,
+.cin-hero[data-active='false'] *::after {
+  animation-play-state: paused !important;
+}
+
+/* People who ask for less motion get a still, fully readable hero. */
+@media (prefers-reduced-motion: reduce) {
+  .cin-hero *,
+  .cin-hero *::before,
+  .cin-hero *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  .cin-p,
+  .cin-sweep,
+  .cin-trail,
+  .cin-plane,
+  .cin-truck-lane,
+  .cin-smoke {
+    display: none;
+  }
+  .cin-ship {
+    transform: translate3d(12vw, 0, 0);
+  }
+}

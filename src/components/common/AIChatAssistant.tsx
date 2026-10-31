@@ -192,10 +192,12 @@ export default function AIChatAssistant() {
       {/* Floating launcher button: positioned safely with clean clearance above content CTA rows */}
       <button
         onClick={() => setOpen(p => !p)}
-        className={`fixed bottom-24 sm:bottom-28 right-2 sm:right-3 z-30 flex items-center justify-center rounded-full shadow-xl transition-all duration-200 border border-white/20 select-none ${
+        className={`fixed ${
+          location.pathname === '/' ? 'bottom-[calc(1rem+env(safe-area-inset-bottom))]' : 'bottom-24'
+        } sm:bottom-28 right-2 sm:right-3 z-30 flex items-center justify-center rounded-full shadow-xl transition-all duration-200 border border-white/20 select-none min-w-[44px] min-h-[44px] lg:min-w-0 lg:min-h-0 ${
           open
-            ? 'w-10 h-10 md:w-auto md:px-3 md:py-2 bg-muted text-foreground border-border'
-            : 'w-11 h-11 md:w-auto md:px-3 md:py-2 bg-[#FF5A00] text-white hover:bg-[#e04e00] hover:scale-105 active:scale-95 shadow-[0_4px_20px_rgba(255,90,0,0.4)]'
+            ? 'w-[44px] h-[44px] md:w-auto md:px-3 md:py-2 bg-muted text-foreground border-border'
+            : 'w-[44px] h-[44px] md:w-auto md:px-3 md:py-2 bg-[#FF5A00] text-white hover:bg-[#e04e00] hover:scale-105 active:scale-95 shadow-[0_4px_20px_rgba(255,90,0,0.4)]'
         }`}
         aria-label="BulkSkart AI Platform Trade Support"
       >

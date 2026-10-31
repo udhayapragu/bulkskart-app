@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Search, ArrowRight, Package, Users, Globe, Flame, FileText, Truck, Calculator } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React, { lazy, Suspense, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowRight, Calculator, FileText, Flame, Globe, Package, Search, Truck, Users } from 'lucide-react';
+import { PlaneArt, PortArt, ShipArt, TruckArt } from './hero/TransportArt';
+import {
+  useAfterFirstPaint,
+  useAfterPaint,
+  useHeroActivity,
+  useHeroParallax,
+  useMediaQuery,
+  usePrefersReducedMotion,
+} from './hero/useHeroEnvironment';
+import './hero/cinematic-hero.css';
+
+// The Earth is drawn on a canvas and loaded after the first paint, so the headline is never held up.
+const EarthGlobe = lazy(() => import('./hero/EarthGlobe'));
 
 interface HeroSection3DProps {
   onSearch?: (query: string, category: string) => void;
@@ -25,10 +37,60 @@ const METRICS = [
   { icon: Flame, value: '10,000+', label: 'Live RFQs & auctions' },
 ];
 
+/** Floating embers. Fixed values keep every render identical; phones show only the first eight. */
+const PARTICLES = (() => {
+  let state = 42;
+  const random = () => {
+    state = (state * 1664525 + 1013904223) % 4294967296;
+    return state / 4294967296;
+  };
+  return Array.from({ length: 22 }, () => ({
+    '--x': `${(4 + random() * 92).toFixed(1)}%`,
+    '--s': `${(2 + random() * 3.2).toFixed(1)}px`,
+    '--d': `${(22 + random() * 16).toFixed(1)}s`,
+    '--t': `-${(random() * 30).toFixed(1)}s`,
+    '--dx': `${Math.round((random() - 0.5) * 80)}px`,
+    '--o': (0.45 + random() * 0.5).toFixed(2),
+  })) as React.CSSProperties[];
+})();
+
+const delay = (ms: number) => ({ '--delay': `${ms}ms` }) as React.CSSProperties;
+
+/** Faint orbit lines around the Earth with two lights travelling along them (desktop only). */
+function OrbitRings() {
+  return (
+    <svg className="cin-orbit" viewBox="-110 -110 220 220" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="rgba(255,138,36,0.3)" strokeWidth="0.35" strokeDasharray="1.2 2.4">
+        <ellipse rx="104" ry="36" transform="rotate(-24)" />
+        <ellipse rx="98" ry="30" transform="rotate(22)" />
+      </g>
+      <g transform="rotate(-24)">
+        <circle r="1.7" fill="#FF8A24">
+          <animateMotion dur="28s" repeatCount="indefinite" path="M104 0 A104 36 0 1 1 -104 0 A104 36 0 1 1 104 0" />
+        </circle>
+      </g>
+      <g transform="rotate(22)">
+        <circle r="1.5" fill="#00D6A3">
+          <animateMotion dur="34s" repeatCount="indefinite" path="M-98 0 A98 30 0 1 1 98 0 A98 30 0 1 1 -98 0" />
+        </circle>
+      </g>
+    </svg>
+  );
+}
+
 export default function HeroSection3D({ onSearch }: HeroSection3DProps) {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState<'products' | 'manufacturers' | 'rfqs'>('products');
+
+  const rootRef = useRef<HTMLElement>(null);
+  const reducedMotion = usePrefersReducedMotion();
+  const compact = useMediaQuery('(max-width: 767px)', true);
+  // Order of arrival: headline and panel, then the atmosphere and scene, then the canvas Earth.
+  const decorationReady = useAfterPaint();
+  const showGlobe = useAfterFirstPaint(350);
+  useHeroActivity(rootRef);
+  useHeroParallax(rootRef, !reducedMotion && decorationReady);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,114 +119,168 @@ export default function HeroSection3D({ onSearch }: HeroSection3DProps) {
   };
 
   return (
-    <section className="relative overflow-hidden border-b border-border bg-background">
-      {/* Soft brand glow behind the headline */}
-      <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[60%] -translate-x-1/2 rounded-full bg-primary/15 blur-[120px]" />
+    <section ref={rootRef} className="cin-hero" data-active="true" aria-labelledby="hero-heading">
+      {/* Atmosphere for the whole hero: sky, stars, moving light, sweep, trails and embers */}
+      <div className="cin-ambient" aria-hidden="true">
+        <div className="cin-sky" />
+        {decorationReady && (
+          <div className="cin-fx">
+            <div className="cin-stars" />
+            <div className="cin-layer" data-depth="0.3">
+              <div className="cin-zoom">
+                <div className="cin-glow cin-glow-1" />
+                <div className="cin-glow cin-glow-2" />
+                <div className="cin-glow cin-glow-3" />
+                <div className="cin-smoke cin-smoke-1" />
+                <div className="cin-smoke cin-smoke-2" />
+              </div>
+            </div>
+            <div className="cin-sweep" />
+            <div className="cin-trail cin-trail-1" />
+            <div className="cin-trail cin-trail-2" />
+            <div className="cin-trail cin-trail-3" />
+            <div className="cin-particles">
+              {PARTICLES.map((style, index) => (
+                <i key={index} className="cin-p" style={style} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
-      <div className="relative z-10 mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 px-4 py-10 sm:px-6 md:py-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14 lg:py-20">
+      <div className="cin-top">
+        {/* Earth, aircraft, port, ship and truck. Decorative only. */}
+        <div className="cin-scene" aria-hidden="true">
+          {decorationReady && (
+            <div className="cin-fx">
+              <div className="cin-earth" data-depth="0.7">
+                <div className="cin-earth-halo" />
+                {showGlobe && (
+                  <Suspense fallback={null}>
+                    <EarthGlobe quality={compact ? 'lite' : 'full'} reducedMotion={reducedMotion} className="cin-earth-canvas" />
+                  </Suspense>
+                )}
+                {!compact && !reducedMotion && <OrbitRings />}
+              </div>
+              <div className="cin-scrim" />
+              <div className="cin-plane-lane" data-depth="0.4">
+                <div className="cin-plane">
+                  <PlaneArt className="cin-plane-art" />
+                </div>
+              </div>
+              <div className="cin-horizon" data-depth="-0.35">
+                <div className="cin-horizon-glow" />
+                <div className="cin-port">
+                  <PortArt className="cin-port-art" />
+                </div>
+                <div className="cin-sea" />
+                <div className="cin-ship-lane">
+                  <div className="cin-ship">
+                    <ShipArt className="cin-ship-art" />
+                  </div>
+                </div>
+                <div className="cin-truck-lane">
+                  <div className="cin-road" />
+                  <div className="cin-truck">
+                    <TruckArt className="cin-truck-art" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Copy and primary actions */}
-        <div className="space-y-6">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground">
-            <Globe className="h-3.5 w-3.5 text-primary" />
+        <div className="cin-copy" data-keep-clear>
+          <span className="cin-eyebrow cin-in" style={delay(60)}>
+            <Globe className="h-3.5 w-3.5" style={{ color: 'var(--cin-orange)' }} aria-hidden="true" />
             Global B2B marketplace
           </span>
 
-          <h1 className="text-4xl font-black leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 id="hero-heading" className="cin-h1 cin-slide">
             Buy in bulk.
             <br />
-            <span className="text-primary">Grow bigger.</span>
+            <span className="cin-accent">Grow bigger.</span>
           </h1>
 
-          <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+          <p className="cin-sub cin-soft" style={delay(200)}>
             Connect with verified manufacturers, suppliers and bulk buyers worldwide. Delivery is free on every order.
           </p>
 
-          <div className="flex flex-wrap gap-2">
-            <a
-              href="#order-benefits"
-              className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-300"
-            >
-              <Truck className="h-3.5 w-3.5" />
+          <div className="cin-feats cin-in" style={delay(360)}>
+            <a href="#order-benefits" className="cin-feat cin-feat-teal">
+              <Truck className="h-3.5 w-3.5" aria-hidden="true" />
               Free delivery on all orders
             </a>
-            <a
-              href="#order-benefits"
-              className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary hover:bg-primary/20"
-            >
-              <Calculator className="h-3.5 w-3.5" />
+            <a href="#order-benefits" className="cin-feat cin-feat-orange">
+              <Calculator className="h-3.5 w-3.5" aria-hidden="true" />
               Order loan calculator
             </a>
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg" className="h-11 rounded-xl px-6 font-bold shadow-lg shadow-primary/20">
-              <Link to="/products">
-                Explore marketplace
-                <ArrowRight className="ml-1.5 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="h-11 rounded-xl px-6 font-bold">
-              <Link to="/post-requirement">
-                <FileText className="mr-1.5 h-4 w-4" />
-                Post a requirement
-              </Link>
-            </Button>
+          <div className="cin-ctas">
+            <Link to="/products" className="cin-btn cin-btn-primary cin-in" style={delay(480)}>
+              Explore marketplace
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <Link to="/post-requirement" className="cin-btn cin-btn-ghost cin-in" style={delay(600)}>
+              <FileText className="h-4 w-4" aria-hidden="true" />
+              Post a requirement
+            </Link>
           </div>
         </div>
+      </div>
 
-        {/* Search panel */}
-        <div className="rounded-2xl border border-border bg-card p-5 shadow-xl shadow-black/5 sm:p-6">
-          <h2 className="text-base font-bold text-foreground">Find products and suppliers</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Search verified catalogues, manufacturers and live RFQs.</p>
+      {/* Search panel */}
+      <div className="cin-panel-wrap cin-in" style={delay(720)}>
+        <div className="cin-panel">
+          <div>
+            <h2 className="cin-panel-title">Find products and suppliers</h2>
+            <p className="cin-panel-sub">Search verified catalogues, manufacturers and live RFQs.</p>
 
-          <form
-            onSubmit={handleSearchSubmit}
-            className="mt-4 flex items-center gap-1 rounded-xl border border-input bg-background p-1 pl-2 transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/30"
-          >
-            <select
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value as 'products' | 'manufacturers' | 'rfqs')}
-              className="shrink-0 cursor-pointer border-r border-border bg-transparent pr-2 text-sm font-semibold text-foreground outline-none"
-            >
-              <option value="products">Products</option>
-              <option value="manufacturers">Manufacturers</option>
-              <option value="rfqs">Live RFQs</option>
-            </select>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search products, suppliers, categories…"
-              className="min-w-0 flex-1 bg-transparent px-2 text-sm text-foreground placeholder:text-muted-foreground outline-none"
-            />
-            <Button type="submit" size="icon" className="h-10 w-10 rounded-lg" aria-label="Submit search">
-              <Search className="h-4 w-4" />
-            </Button>
-          </form>
-
-          <div className="mt-3 flex flex-wrap items-center gap-1.5">
-            <span className="text-xs font-semibold text-muted-foreground">Popular:</span>
-            {POPULAR_CATEGORIES.map((cat) => (
-              <button
-                key={cat.name}
-                type="button"
-                onClick={() => handleQuickTagClick(cat.query)}
-                className="rounded-full border border-border bg-muted/60 px-2.5 py-0.5 text-xs font-medium text-foreground transition-colors hover:border-primary hover:text-primary"
+            <form onSubmit={handleSearchSubmit} role="search" className="cin-form" data-keep-clear>
+              <select
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value as 'products' | 'manufacturers' | 'rfqs')}
+                className="cin-select"
+                aria-label="What to search"
               >
-                {cat.name}
+                <option value="products">Products</option>
+                <option value="manufacturers">Manufacturers</option>
+                <option value="rfqs">Live RFQs</option>
+              </select>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search products, suppliers, categories…"
+                aria-label="Search products, suppliers and categories"
+                className="cin-input"
+              />
+              <button type="submit" className="cin-submit" aria-label="Submit search">
+                <Search className="h-4 w-4" aria-hidden="true" />
               </button>
-            ))}
+            </form>
+
+            <div className="cin-chips" role="group" aria-label="Popular categories">
+              <span className="cin-chips-label">Popular:</span>
+              {POPULAR_CATEGORIES.map((cat) => (
+                <button key={cat.name} type="button" onClick={() => handleQuickTagClick(cat.query)} className="cin-chip">
+                  {cat.name}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-3 border-t border-border pt-5">
+          <div className="cin-stats">
             {METRICS.map(({ icon: Icon, value, label }) => (
-              <div key={label} className="flex items-center gap-3 rounded-xl border border-border bg-background p-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <Icon className="h-4 w-4" />
+              <div key={label} className="cin-stat">
+                <div className="cin-stat-icon">
+                  <Icon className="h-4 w-4" aria-hidden="true" />
                 </div>
-                <div className="min-w-0">
-                  <div className="text-base font-black leading-tight text-foreground">{value}</div>
-                  <div className="truncate text-xs text-muted-foreground">{label}</div>
+                <div style={{ minWidth: 0 }}>
+                  <div className="cin-stat-value">{value}</div>
+                  <div className="cin-stat-label">{label}</div>
                 </div>
               </div>
             ))}
