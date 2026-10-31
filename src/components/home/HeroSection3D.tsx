@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Calculator, FileText, Flame, Globe, Package, Search, Truck, Users } from 'lucide-react';
+import { ArrowRight, Calculator, Factory, Globe, LayoutGrid, Search, Truck } from 'lucide-react';
 import { PlaneArt, PortArt, ShipArt, TruckArt } from './hero/TransportArt';
 import {
   useAfterFirstPaint,
@@ -28,13 +28,6 @@ const POPULAR_CATEGORIES = [
   { name: 'Agriculture', query: 'spices grains coffee' },
   { name: 'Packaging', query: 'corrugated boxes cartons' },
   { name: 'Electrical', query: 'cables transformers switchgear' },
-];
-
-const METRICS = [
-  { icon: Users, value: '50,000+', label: 'Verified manufacturers' },
-  { icon: Package, value: '1M+', label: 'Bulk products' },
-  { icon: Globe, value: '120+', label: 'Trade countries' },
-  { icon: Flame, value: '10,000+', label: 'Live RFQs & auctions' },
 ];
 
 /** Floating embers. Fixed values keep every render identical; phones show only the first eight. */
@@ -86,6 +79,8 @@ export default function HeroSection3D({ onSearch }: HeroSection3DProps) {
   const rootRef = useRef<HTMLElement>(null);
   const reducedMotion = usePrefersReducedMotion();
   const compact = useMediaQuery('(max-width: 767px)', true);
+  // on the narrowest phones the field has room for one word, so the placeholder says less
+  const tiny = useMediaQuery('(max-width: 359px)', false);
   // Order of arrival: headline and panel, then the atmosphere and scene, then the canvas Earth.
   const decorationReady = useAfterPaint();
   const showGlobe = useAfterFirstPaint(350);
@@ -198,13 +193,13 @@ export default function HeroSection3D({ onSearch }: HeroSection3DProps) {
           </span>
 
           <h1 id="hero-heading" className="cin-h1 cin-slide">
-            Buy in bulk.
+            Global Wholesale.
             <br />
-            <span className="cin-accent">Grow bigger.</span>
+            <span className="cin-accent">Smarter Sourcing.</span>
           </h1>
 
           <p className="cin-sub cin-soft" style={delay(200)}>
-            Connect with verified manufacturers, suppliers and bulk buyers worldwide. Delivery is free on every order.
+            Connect manufacturers, wholesalers and bulk buyers across the world. Search suppliers and products, compare offers and source with confidence.
           </p>
 
           <div className="cin-feats cin-in" style={delay(360)}>
@@ -219,25 +214,28 @@ export default function HeroSection3D({ onSearch }: HeroSection3DProps) {
           </div>
 
           <div className="cin-ctas">
-            <Link to="/products" className="cin-btn cin-btn-primary cin-in" style={delay(480)}>
-              Explore marketplace
+            <Link to="/categories" className="cin-btn cin-btn-primary cin-in" style={delay(480)}>
+              <LayoutGrid className="h-4 w-4" aria-hidden="true" />
+              Browse Categories
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
-            <Link to="/post-requirement" className="cin-btn cin-btn-ghost cin-in" style={delay(600)}>
-              <FileText className="h-4 w-4" aria-hidden="true" />
-              Post a requirement
+            <Link to="/register?role=supplier" className="cin-btn cin-btn-ghost cin-in" style={delay(600)}>
+              <Factory className="h-4 w-4" aria-hidden="true" />
+              Join as Manufacturer
             </Link>
           </div>
         </div>
       </div>
 
       {/* Search panel */}
-      <div className="cin-panel-wrap cin-in" style={delay(720)}>
+      <div className="cin-panel-wrap cin-in" style={delay(720)} data-hero-search>
         <div className="cin-panel">
           <div>
             <h2 className="cin-panel-title">Find products and suppliers</h2>
             <p className="cin-panel-sub">Search verified catalogues, manufacturers and live RFQs.</p>
+          </div>
 
+          <div>
             <form onSubmit={handleSearchSubmit} role="search" className="cin-form" data-keep-clear>
               <select
                 value={selectedType}
@@ -253,7 +251,7 @@ export default function HeroSection3D({ onSearch }: HeroSection3DProps) {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products, suppliers, categories…"
+                placeholder={tiny ? 'Search…' : 'Search products, suppliers, categories…'}
                 aria-label="Search products, suppliers and categories"
                 className="cin-input"
               />
@@ -270,20 +268,6 @@ export default function HeroSection3D({ onSearch }: HeroSection3DProps) {
                 </button>
               ))}
             </div>
-          </div>
-
-          <div className="cin-stats">
-            {METRICS.map(({ icon: Icon, value, label }) => (
-              <div key={label} className="cin-stat">
-                <div className="cin-stat-icon">
-                  <Icon className="h-4 w-4" aria-hidden="true" />
-                </div>
-                <div style={{ minWidth: 0 }}>
-                  <div className="cin-stat-value">{value}</div>
-                  <div className="cin-stat-label">{label}</div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </div>

@@ -5,8 +5,8 @@
  */
 
 .cin-hero {
-  --cin-bg: #080b13;
-  --cin-orange: #ff5a00;
+  --cin-bg: #050914;
+  --cin-orange: #ff6500;
   --cin-orange-2: #ff8a24;
   --cin-teal: #00d6a3;
   --cin-card: #101827;
@@ -33,8 +33,8 @@
   inset: 0;
   /* Kept to two layers: this is painted on the very first frame. The richer light arrives with .cin-fx. */
   background:
-    radial-gradient(60% 46% at 82% 24%, rgba(255, 90, 0, 0.18), transparent 72%),
-    linear-gradient(180deg, #0c1224 0%, #080b13 52%, #070a11 100%);
+    radial-gradient(60% 46% at 82% 24%, rgba(255, 101, 0, 0.18), transparent 72%),
+    linear-gradient(180deg, #0a1020 0%, #050914 52%, #040711 100%);
 }
 
 .cin-stars {
@@ -88,7 +88,7 @@
   height: 70vmax;
   right: -24vmax;
   top: -26vmax;
-  background: radial-gradient(closest-side, rgba(255, 90, 0, 0.27), rgba(255, 90, 0, 0.08) 55%, transparent 76%);
+  background: radial-gradient(closest-side, rgba(255, 101, 0, 0.27), rgba(255, 101, 0, 0.08) 55%, transparent 76%);
   animation: cin-drift-a 26s ease-in-out infinite alternate;
 }
 
@@ -191,7 +191,7 @@
   height: var(--s);
   border-radius: 50%;
   opacity: 0;
-  background: radial-gradient(circle, rgba(255, 176, 100, 0.95), rgba(255, 90, 0, 0.35) 60%, transparent 72%);
+  background: radial-gradient(circle, rgba(255, 176, 100, 0.95), rgba(255, 101, 0, 0.35) 60%, transparent 72%);
   animation: cin-rise var(--d) linear var(--t) infinite;
 }
 
@@ -224,8 +224,8 @@
   inset: -12%;
   border-radius: 50%;
   background:
-    radial-gradient(closest-side, transparent 60%, rgba(255, 90, 0, 0.22) 68%, rgba(255, 90, 0, 0.09) 78%, transparent 96%),
-    radial-gradient(48% 48% at 78% 66%, rgba(255, 90, 0, 0.2), transparent 72%);
+    radial-gradient(closest-side, transparent 60%, rgba(255, 101, 0, 0.22) 68%, rgba(255, 101, 0, 0.09) 78%, transparent 96%),
+    radial-gradient(48% 48% at 78% 66%, rgba(255, 101, 0, 0.2), transparent 72%);
   animation: cin-breathe 7s ease-in-out infinite;
 }
 
@@ -307,7 +307,7 @@
   right: 0;
   bottom: 28%;
   height: 90%;
-  background: radial-gradient(90% 90% at 55% 100%, rgba(255, 128, 36, 0.66), rgba(255, 90, 0, 0.22) 50%, transparent 82%);
+  background: radial-gradient(90% 90% at 55% 100%, rgba(255, 128, 36, 0.66), rgba(255, 101, 0, 0.22) 50%, transparent 82%);
 }
 
 .cin-sea {
@@ -317,8 +317,8 @@
   bottom: 0;
   height: 38%;
   background:
-    linear-gradient(180deg, rgba(255, 138, 36, 0.42), rgba(255, 90, 0, 0.12) 26%, rgba(8, 11, 19, 0.94) 100%),
-    linear-gradient(180deg, #101a30, #080b13);
+    linear-gradient(180deg, rgba(255, 138, 36, 0.42), rgba(255, 101, 0, 0.12) 26%, rgba(5, 9, 20, 0.94) 100%),
+    linear-gradient(180deg, #101a30, #050914);
 }
 .cin-sea::before {
   content: '';
@@ -397,8 +397,8 @@
   z-index: 4;
   pointer-events: none;
   background:
-    linear-gradient(100deg, rgba(8, 11, 19, 0.9) 0%, rgba(8, 11, 19, 0.66) 46%, rgba(8, 11, 19, 0.08) 100%),
-    linear-gradient(180deg, rgba(8, 11, 19, 0.35) 0%, transparent 22%, transparent 78%, rgba(8, 11, 19, 0.6) 100%);
+    linear-gradient(100deg, rgba(5, 9, 20, 0.9) 0%, rgba(5, 9, 20, 0.66) 46%, rgba(5, 9, 20, 0.08) 100%),
+    linear-gradient(180deg, rgba(5, 9, 20, 0.35) 0%, transparent 22%, transparent 78%, rgba(5, 9, 20, 0.6) 100%);
 }
 
 /* ---------- Copy ---------- */
@@ -414,9 +414,9 @@
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
-  border: 1px solid rgba(255, 90, 0, 0.4);
+  border: 1px solid rgba(255, 101, 0, 0.4);
   border-radius: 999px;
-  background: rgba(255, 90, 0, 0.1);
+  background: rgba(255, 101, 0, 0.1);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.16em;
@@ -426,7 +426,7 @@
 
 .cin-h1 {
   margin: 16px 0 0;
-  font-size: clamp(2.05rem, 10.4vw, 3.1rem);
+  font-size: clamp(1.7rem, 8.3vw, 3rem);
   font-weight: 900;
   line-height: 1.03;
   letter-spacing: -0.02em;
@@ -475,8 +475,8 @@
   color: #7ff2d3;
 }
 .cin-feat-orange {
-  border: 1px solid rgba(255, 90, 0, 0.55);
-  background: rgba(255, 90, 0, 0.12);
+  border: 1px solid rgba(255, 101, 0, 0.55);
+  background: rgba(255, 101, 0, 0.12);
   color: #ffb98a;
 }
 
@@ -506,7 +506,7 @@
 .cin-btn-primary {
   color: #fff;
   background: linear-gradient(135deg, var(--cin-orange), var(--cin-orange-2));
-  box-shadow: 0 10px 28px -8px rgba(255, 90, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 10px 28px -8px rgba(255, 101, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 .cin-btn-ghost {
   color: #fff;
@@ -565,7 +565,7 @@
 }
 .cin-form:focus-within {
   border-color: var(--cin-orange);
-  box-shadow: 0 0 0 3px rgba(255, 90, 0, 0.25);
+  box-shadow: 0 0 0 3px rgba(255, 101, 0, 0.25);
 }
 .cin-select {
   flex: none;
@@ -584,6 +584,13 @@
 .cin-select option {
   color: #0b1020;
   background: #fff;
+}
+/* iOS Safari zooms into a control whose text is under 16px */
+@media (pointer: coarse) {
+  .cin-select {
+    font-size: 16px;
+    max-width: 42%;
+  }
 }
 .cin-input {
   flex: 1;
@@ -674,7 +681,7 @@
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: rgba(255, 90, 0, 0.14);
+  background: rgba(255, 101, 0, 0.14);
   color: var(--cin-orange-2);
 }
 .cin-stat-value {
@@ -930,7 +937,7 @@
   }
   .cin-h1 {
     margin-top: 10px;
-    font-size: clamp(1.85rem, 9.2vw, 2.4rem);
+    font-size: clamp(1.55rem, 8vw, 2.2rem);
   }
   .cin-sub {
     margin-top: 10px;
@@ -969,7 +976,7 @@
     top: 10px;
   }
   .cin-h1 {
-    font-size: clamp(3rem, 7vw, 3.75rem);
+    font-size: clamp(2.5rem, 6.1vw, 3.5rem);
   }
   .cin-sub {
     font-size: 16.5px;
@@ -1003,7 +1010,7 @@
     mask-image: none;
   }
   .cin-accent {
-    filter: drop-shadow(0 0 22px rgba(255, 90, 0, 0.4));
+    filter: drop-shadow(0 0 22px rgba(255, 101, 0, 0.4));
   }
 }
 
@@ -1020,10 +1027,10 @@
     margin-inline: max(0px, calc((100% - 1320px) / 2));
   }
   .cin-copy {
-    max-width: 36rem;
+    max-width: 41rem;
   }
   .cin-h1 {
-    font-size: clamp(3.4rem, 5.2vw, 4.6rem);
+    font-size: clamp(3rem, 4.5vw, 4.3rem);
   }
   .cin-earth {
     width: min(56vw, 840px);
@@ -1033,8 +1040,8 @@
   }
   .cin-scrim {
     background:
-      linear-gradient(90deg, rgba(8, 11, 19, 0.92) 0%, rgba(8, 11, 19, 0.7) 34%, rgba(8, 11, 19, 0.2) 62%, transparent 100%),
-      linear-gradient(180deg, rgba(8, 11, 19, 0.3) 0%, transparent 20%, transparent 80%, rgba(8, 11, 19, 0.55) 100%);
+      linear-gradient(90deg, rgba(5, 9, 20, 0.92) 0%, rgba(5, 9, 20, 0.7) 34%, rgba(5, 9, 20, 0.2) 62%, transparent 100%),
+      linear-gradient(180deg, rgba(5, 9, 20, 0.3) 0%, transparent 20%, transparent 80%, rgba(5, 9, 20, 0.55) 100%);
   }
   .cin-panel-wrap {
     margin-top: -56px;
@@ -1042,15 +1049,13 @@
   }
   .cin-panel {
     display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-    gap: 32px;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr);
+    gap: 36px;
     align-items: center;
     padding: 26px 30px;
   }
-  .cin-stats {
+  .cin-panel .cin-form {
     margin-top: 0;
-    padding-top: 0;
-    border-top: 0;
   }
 }
 
@@ -1075,14 +1080,14 @@
     transition: transform 0.7s;
   }
   .cin-btn-primary:hover {
-    box-shadow: 0 16px 38px -8px rgba(255, 90, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    box-shadow: 0 16px 38px -8px rgba(255, 101, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.35);
   }
   .cin-btn-primary:hover::after {
     transform: translateX(120%);
   }
   .cin-btn-ghost:hover {
     border-color: var(--cin-orange-2);
-    background: rgba(255, 90, 0, 0.16);
+    background: rgba(255, 101, 0, 0.16);
   }
   .cin-feat:hover {
     transform: translateY(-1px);
@@ -1091,11 +1096,11 @@
   .cin-chip:hover {
     border-color: var(--cin-orange);
     color: #ffb98a;
-    background: rgba(255, 90, 0, 0.1);
+    background: rgba(255, 101, 0, 0.1);
   }
   .cin-submit:hover {
     transform: scale(1.06);
-    box-shadow: 0 8px 20px -6px rgba(255, 90, 0, 0.8);
+    box-shadow: 0 8px 20px -6px rgba(255, 101, 0, 0.8);
   }
   .cin-stat {
     transition: border-color 0.25s, background-color 0.25s;

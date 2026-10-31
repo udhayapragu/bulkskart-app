@@ -334,7 +334,10 @@ export default function LiveBuyerOrderAlert() {
     },
   ];
 
+  // The landing page shows real buyer requirements instead (see NewBuyLeads). This popup draws on a
+  // generated dataset of invented buyers, so it stays off the page that makes real-data claims.
   const isExcludedPage =
+    location.pathname === '/' ||
     location.pathname.includes('/business-setup') ||
     location.pathname.includes('/onboarding') ||
     location.pathname.includes('/post-requirement') ||

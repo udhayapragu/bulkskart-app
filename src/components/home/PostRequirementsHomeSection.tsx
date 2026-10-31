@@ -63,11 +63,12 @@ export default function PostRequirementsHomeSection() {
 
   return (
     <section className="relative z-20 pt-10 pb-4 md:pt-14 md:pb-6 bg-[#0B0F19] border-t border-border/80">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-5 md:px-6">
+      <div className="lv-container">
         
         {/* Section Header */}
         <div className="mb-8">
           <SectionHeader
+            className="lv-legacy-head"
             eyebrow="Direct Factory Sourcing"
             icon={<Sparkles className="h-3.5 w-3.5" />}
             title="Post Buying Requirement"
@@ -194,7 +195,7 @@ export default function PostRequirementsHomeSection() {
                     setQuantity('10000');
                     setUnit('Pieces');
                   }}
-                  className="px-2.5 py-1 rounded-md bg-muted/70 hover:bg-muted text-foreground/80 hover:text-foreground transition-colors"
+                  className="px-2.5 py-1 rounded-md bg-muted/70 hover:bg-muted text-foreground/80 hover:text-foreground transition-colors [@media(pointer:coarse)]:min-h-[38px] [@media(pointer:coarse)]:px-3.5"
                 >
                   5-Ply Shipping Boxes
                 </button>
@@ -206,7 +207,7 @@ export default function PostRequirementsHomeSection() {
                     setQuantity('500');
                     setUnit('Pieces');
                   }}
-                  className="px-2.5 py-1 rounded-md bg-muted/70 hover:bg-muted text-foreground/80 hover:text-foreground transition-colors"
+                  className="px-2.5 py-1 rounded-md bg-muted/70 hover:bg-muted text-foreground/80 hover:text-foreground transition-colors [@media(pointer:coarse)]:min-h-[38px] [@media(pointer:coarse)]:px-3.5"
                 >
                   SS 304 Flanges
                 </button>
@@ -218,7 +219,7 @@ export default function PostRequirementsHomeSection() {
                     setQuantity('20');
                     setUnit('Metric Tons');
                   }}
-                  className="px-2.5 py-1 rounded-md bg-muted/70 hover:bg-muted text-foreground/80 hover:text-foreground transition-colors"
+                  className="px-2.5 py-1 rounded-md bg-muted/70 hover:bg-muted text-foreground/80 hover:text-foreground transition-colors [@media(pointer:coarse)]:min-h-[38px] [@media(pointer:coarse)]:px-3.5"
                 >
                   Cotton Yarn 30s
                 </button>

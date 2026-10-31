@@ -18,10 +18,17 @@ interface EarthGlobeProps {
   /** Draws one still frame and never starts the animation loop. */
   reducedMotion: boolean;
   className?: string;
+  /** Draw the trade lanes between ports. Default true. */
+  lanes?: boolean;
+  /** Extra markers, for example the countries of real suppliers. */
+  pins?: ReadonlyArray<{ lat: number; lon: number }>;
+  /** Longitude, in degrees east, that faces the viewer on load. Default 78 (India). */
+  facing?: number;
+  /** Orange-only dots, for sections that use the Earth as a quiet accent. */
+  warm?: boolean;
 }
 
 const TILT = 0.46; // radians. We look slightly down on the northern hemisphere.
-const START_YAW = -1.36; // India faces the viewer when the page loads.
 const SPIN = 0.055; // radians per second, about 3 degrees: one turn takes roughly two minutes.
 const LEVELS = 16;
 const TRAIL = 0.22; // share of a lane that a comet's tail covers
@@ -40,6 +47,11 @@ const PALETTE: string[] = Array.from({ length: LEVELS }, (_, index) => {
   const g = Math.round(222 + (138 - 222) * warm);
   const b = Math.round(255 + (36 - 255) * warm);
   return `rgba(${r},${g},${b},${alpha.toFixed(3)})`;
+});
+
+const WARM_PALETTE: string[] = Array.from({ length: LEVELS }, (_, index) => {
+  const t = index / (LEVELS - 1);
+  return `rgba(255,${Math.round(105 + 65 * t)},${Math.round(18 + 44 * t)},${(0.16 + 0.84 * t ** 0.9).toFixed(3)})`;
 });
 
 interface Lane {
@@ -105,7 +117,7 @@ function paintStatic(size: number, dpr: number, radius: number): Pick<Scene, 'ba
   return { base, rim };
 }
 
-export default function EarthGlobe({ quality, reducedMotion, className }: EarthGlobeProps) {
+export default function EarthGlobe({ quality, reducedMotion, className, lanes: showLanes = true, pins, facing = 78, warm = false }: EarthGlobeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -120,7 +132,10 @@ export default function EarthGlobe({ quality, reducedMotion, className }: EarthG
     const points = sampleLandPoints(mask, lite ? 11000 : 26000);
     const steps = lite ? 44 : 72;
 
-    const lanes: Lane[] = LANES.slice(0, lite ? 6 : LANES.length).map(([from, to], index) => {
+    const palette = warm ? WARM_PALETTE : PALETTE;
+    const startYaw = -(facing * Math.PI) / 180;
+    const laneSource = showLanes ? LANES.slice(0, lite ? 6 : LANES.length) : [];
+    const lanes: Lane[] = laneSource.map(([from, to], index) => {
       const a = HUBS[from];
       const b = HUBS[to];
       const lift = 0.05 + 0.17 * (angularDistance(a, b) / Math.PI);
@@ -131,11 +146,17 @@ export default function EarthGlobe({ quality, reducedMotion, className }: EarthG
         toTeal: from === 'mumbai' || from === 'chennai',
       };
     });
-    const nodes = Array.from(new Set(LANES.slice(0, lanes.length).flat())).map((key, index) => ({
+    const hubNodes = Array.from(new Set(laneSource.flat())).map((key, index) => ({
       vector: latLonToVector(HUBS[key].lat, HUBS[key].lon),
       teal: !(key === 'mumbai' || key === 'chennai'),
       phase: (index * 0.23) % 1,
     }));
+    const pinNodes = (pins ?? []).slice(0, 40).map((pin, index) => ({
+      vector: latLonToVector(pin.lat, pin.lon),
+      teal: false,
+      phase: (index * 0.17) % 1,
+    }));
+    const nodes = [...hubNodes, ...pinNodes];
 
     const buckets = Array.from({ length: LEVELS }, () => new Float32Array(points.length));
     const counts = new Int32Array(LEVELS);
@@ -224,7 +245,7 @@ export default function EarthGlobe({ quality, reducedMotion, className }: EarthG
 
       // Land dots, grouped by brightness so each group is drawn with one fill.
       counts.fill(0);
-      const dot = radius / 190 + (lite ? 0.62 : 0.42);
+      const dot = radius / 190 + (lite ? 0.62 : 0.42) + (warm ? 0.35 : 0);
       for (let i = 0; i < points.length; i += 3) {
         project(points[i], points[i + 1], points[i + 2], view);
         const z = view[2];
@@ -242,7 +263,7 @@ export default function EarthGlobe({ quality, reducedMotion, className }: EarthG
         const total = counts[level];
         if (total === 0) continue;
         const bucket = buckets[level];
-        draw.fillStyle = PALETTE[level];
+        draw.fillStyle = palette[level];
         draw.beginPath();
         for (let k = 0; k < total; k += 3) {
           const d = bucket[k + 2];
@@ -333,13 +354,13 @@ export default function EarthGlobe({ quality, reducedMotion, className }: EarthG
       draw.globalCompositeOperation = 'source-over';
     };
 
-    const stillYaw = START_YAW + 0.5;
+    const stillYaw = startYaw + 0.5;
     const tick = (time: number) => {
       raf = 0;
       if (!running) return;
       if (!startedAt) startedAt = time;
       const elapsed = time - startedAt;
-      frame(elapsed, START_YAW + (SPIN * elapsed) / 1000);
+      frame(elapsed, startYaw + (SPIN * elapsed) / 1000);
       if (frameGap > 0) {
         // Phones: sleep between frames instead of waking up every 16 ms just to skip one.
         const spent = performance.now() - time;
@@ -369,7 +390,7 @@ export default function EarthGlobe({ quality, reducedMotion, className }: EarthG
     const redraw = () => {
       build();
       if (reducedMotion) frame(2600, stillYaw);
-      else if (!running) frame(performance.now() - startedAt, START_YAW);
+      else if (!running) frame(performance.now() - startedAt, startYaw);
       surface.dataset.ready = 'true';
     };
 
@@ -396,7 +417,7 @@ export default function EarthGlobe({ quality, reducedMotion, className }: EarthG
       intersection.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, [quality, reducedMotion]);
+  }, [quality, reducedMotion, showLanes, facing, warm, JSON.stringify(pins ?? [])]);
 
   return <canvas ref={canvasRef} className={className} aria-hidden="true" data-testid="hero-earth" />;
 }

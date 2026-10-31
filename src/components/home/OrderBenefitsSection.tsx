@@ -53,18 +53,22 @@ export default function OrderBenefitsSection() {
       <div className="pointer-events-none absolute -left-10 top-0 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl" />
       <div className="pointer-events-none absolute right-0 bottom-0 h-56 w-56 rounded-full bg-[#FF5A00]/10 blur-3xl" />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-4 sm:px-5 md:px-6">
+      <div className="lv-container">
         <div className="mb-6 sm:mb-8">
           <SectionHeader
             tone="dark"
+            className="lv-legacy-head"
             eyebrow="Why buyers order here"
             title="Free delivery, and a loan calculator for the order"
             subtitle="Delivery is free on every order. Check the monthly cost, then submit how much loan you need and your contact details."
           />
         </div>
 
-        <div className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-2 lg:gap-5">
-          <FreeDeliveryCard tone="landing" />
+        <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2 lg:gap-5">
+          {/* stays in view beside the long calculator and loan form instead of stretching into empty space */}
+          <div className="lg:sticky lg:top-6">
+            <FreeDeliveryCard tone="landing" />
+          </div>
           <div ref={slotRef} className="min-h-[520px]">
             {ready ? (
               <Suspense fallback={<CalculatorSkeleton />}>

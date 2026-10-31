@@ -47,12 +47,14 @@ function renderHero(onSearch?: (query: string, type: string) => void) {
 }
 
 describe('HeroSection3D content', () => {
-  it('keeps the brand wording', () => {
+  it('carries the redesigned headline and supporting copy', () => {
     renderHero();
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Buy in bulk.Grow bigger.');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Global Wholesale.Smarter Sourcing.');
     expect(screen.getByText('Global B2B marketplace')).toBeInTheDocument();
     expect(
-      screen.getByText('Connect with verified manufacturers, suppliers and bulk buyers worldwide. Delivery is free on every order.'),
+      screen.getByText(
+        'Connect manufacturers, wholesalers and bulk buyers across the world. Search suppliers and products, compare offers and source with confidence.',
+      ),
     ).toBeInTheDocument();
   });
 
@@ -63,18 +65,19 @@ describe('HeroSection3D content', () => {
     }
   });
 
-  it('keeps both buttons and their routes', () => {
+  it('has the two calls to action the brief asks for, each on a real route', () => {
     renderHero();
-    expect(screen.getByRole('link', { name: /Explore marketplace/ })).toHaveAttribute('href', '/products');
-    expect(screen.getByRole('link', { name: /Post a requirement/ })).toHaveAttribute('href', '/post-requirement');
+    expect(screen.getByRole('link', { name: /Browse Categories/ })).toHaveAttribute('href', '/categories');
+    expect(screen.getByRole('link', { name: /Join as Manufacturer/ })).toHaveAttribute('href', '/register?role=supplier');
   });
 
-  it('keeps the search panel copy and every statistic', () => {
+  it('keeps the search panel copy and shows no invented statistics', () => {
     renderHero();
     expect(screen.getByRole('heading', { level: 2, name: 'Find products and suppliers' })).toBeInTheDocument();
     expect(screen.getByText('Search verified catalogues, manufacturers and live RFQs.')).toBeInTheDocument();
-    for (const text of ['50,000+', 'Verified manufacturers', '1M+', 'Bulk products', '120+', 'Trade countries', '10,000+', 'Live RFQs & auctions']) {
-      expect(screen.getByText(text)).toBeInTheDocument();
+    // the earlier hero printed round-number claims that were not read from the database; real counts now live in the stats strip below
+    for (const text of ['50,000+', '1M+', '120+', '10,000+', 'Bulk products', 'Trade countries']) {
+      expect(screen.queryByText(text)).toBeNull();
     }
   });
 

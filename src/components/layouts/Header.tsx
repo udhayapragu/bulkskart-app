@@ -140,7 +140,7 @@ export default function Header() {
   const isActive = (href: string) => location.pathname === href;
 
   return (
-    <header className="relative z-30 w-full bg-background border-b border-border shadow-sm transition-colors">
+    <header className="relative z-30 w-full border-b border-border bg-background shadow-sm transition-colors dark:border-white/10 dark:bg-[#050914]/95 dark:md:backdrop-blur-md">
       {/* ── Main row ── */}
       <div className="max-w-[1400px] mx-auto px-2.5 sm:px-4 md:px-6 h-[56px] flex items-center gap-1 sm:gap-2 md:gap-4 justify-between md:justify-start">
 
@@ -150,7 +150,7 @@ export default function Header() {
         </Link>
 
         {/* Search bar — desktop */}
-        <form onSubmit={handleSearch} className="hidden md:flex flex-1 min-w-[140px] max-w-[420px] lg:max-w-[500px] items-center bg-muted border border-border rounded-lg h-9 px-3 gap-2 overflow-hidden focus-within:border-primary/60 focus-within:ring-1 focus-within:ring-primary/30 transition-all">
+        <form onSubmit={handleSearch} className="hidden md:flex flex-1 min-w-[140px] max-w-[420px] lg:max-w-[500px] items-center bg-muted dark:bg-[#0d1627] border border-border dark:border-white/15 rounded-xl h-10 px-3 gap-2 overflow-hidden focus-within:border-primary/70 focus-within:ring-2 focus-within:ring-primary/25 transition-all">
           <Search className="w-4 h-4 text-muted-foreground shrink-0" />
           <input
             ref={searchInputRef}
@@ -160,7 +160,7 @@ export default function Header() {
             placeholder="Search products, suppliers, categories…"
             className="flex-1 min-w-0 bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground outline-none"
           />
-          <Button type="submit" size="sm" className="h-7 px-3 text-[12px] bg-primary text-white rounded-md shrink-0">
+          <Button type="submit" size="sm" className="h-7 px-3.5 text-[12px] font-bold bg-gradient-to-r from-[#ff6500] to-[#ff8a24] text-white hover:brightness-110 rounded-lg shrink-0">
             Search
           </Button>
         </form>
@@ -477,7 +477,7 @@ export default function Header() {
                 <Button size="sm" variant="ghost" className="text-[13px] font-bold text-foreground hover:text-primary hover:bg-muted h-8 px-3 rounded whitespace-nowrap">Sign In</Button>
               </Link>
               <Link to="/register" className="shrink-0">
-                <Button size="sm" className="bg-[#FF5A00] text-white hover:bg-[#e04e00] h-8 px-3 text-[13px] font-bold rounded shadow-[0_2px_0_#922f00] whitespace-nowrap">Create Free Account</Button>
+                <Button size="sm" className="bg-gradient-to-r from-[#ff6500] to-[#ff7f27] text-white hover:brightness-110 h-9 px-4 text-[13px] font-bold rounded-lg shadow-[0_10px_22px_-12px_rgba(255,101,0,0.95)] whitespace-nowrap">Create Free Account</Button>
               </Link>
             </>
           )}
@@ -521,18 +521,22 @@ export default function Header() {
       </div>
 
       {/* ── Desktop Category Nav ── */}
-      <nav className="hidden md:block border-t border-border">
+      <nav className="hidden md:block border-t border-border dark:border-white/10" aria-label="Primary">
         <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
           <div className="flex items-center overflow-x-auto scrollbar-none whitespace-nowrap py-0.5" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            {navLinks.map((link, i) => (
-              <Link key={link.href} to={link.href}
-                {...getPrefetchHandlers(link.href)}
-                className={`whitespace-nowrap px-3.5 lg:px-4 py-2.5 text-[12.5px] lg:text-[13px] font-medium transition-colors hover:text-primary border-b-2 ${
-                  i === 0 ? 'border-primary text-primary' : 'border-transparent text-muted-foreground'
-                }`}>
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const current = location.pathname === link.href || location.pathname.startsWith(`${link.href}/`);
+              return (
+                <Link key={link.href} to={link.href}
+                  {...getPrefetchHandlers(link.href)}
+                  aria-current={current ? 'page' : undefined}
+                  className={`whitespace-nowrap px-3.5 lg:px-4 py-2.5 text-[12.5px] lg:text-[13px] font-medium transition-colors hover:text-primary border-b-2 ${
+                    current ? 'border-primary text-primary' : 'border-transparent text-muted-foreground'
+                  }`}>
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </nav>
