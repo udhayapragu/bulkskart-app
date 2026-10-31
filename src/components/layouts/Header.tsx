@@ -242,6 +242,9 @@ export default function Header() {
             <Search className="h-5 w-5" aria-hidden="true" />
           </Button>
 
+          <div className="xl:hidden">
+            <CopyPublicProfileButton compact />
+          </div>
           <div className="hidden items-center gap-1 xl:flex">
             <CopyPublicProfileButton />
           </div>
@@ -370,6 +373,9 @@ export default function Header() {
                         {displayName || profile?.full_name || 'My account'}
                       </p>
                       <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                    </div>
+                    <div className="px-1">
+                      <CopyPublicProfileButton />
                     </div>
                     <Button asChild variant="outline" className="h-11 w-full font-semibold text-primary">
                       <Link to={dashboardLink} onClick={closeMenu}>
