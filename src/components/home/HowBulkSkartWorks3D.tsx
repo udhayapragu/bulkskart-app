@@ -56,13 +56,13 @@ export default function HowBulkSkartWorks3D() {
       {/* Header matching Image 1: END-TO-END PROCUREMENT LIFECYCLE */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 sm:mb-6">
         <div className="inline-flex items-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-primary" />
-          <span className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-wider">
+          <Sparkles className="w-3.5 h-3.5 text-[#FF5A00]" />
+          <span className="text-[10px] sm:text-xs font-bold text-[#FF5A00] uppercase tracking-wider">
             END-TO-END PROCUREMENT LIFECYCLE
           </span>
         </div>
 
-        <h2 className="text-xs sm:text-sm font-extrabold text-foreground sm:text-right">
+        <h2 className="text-xs sm:text-sm font-extrabold text-white sm:text-right">
           How BulkSkart Streamlines Bulk Sourcing
         </h2>
       </div>
@@ -74,35 +74,35 @@ export default function HowBulkSkartWorks3D() {
           return (
             <div
               key={s.step}
-              className="relative p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-card/85 hover:bg-card border border-border hover:border-primary/50 shadow-sm transition-all duration-300 flex flex-col justify-between group"
+              className="relative p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900/85 hover:bg-slate-900 border border-slate-800/90 hover:border-[#FF5A00]/50 shadow-sm transition-all duration-300 flex flex-col justify-between group"
             >
               {/* Step Number Decal */}
               <div className="flex items-center justify-between mb-2">
-                <span className="text-base sm:text-lg font-black font-mono text-primary/80 group-hover:text-primary transition-colors">
+                <span className="text-base sm:text-lg font-black font-mono text-[#FF5A00]/80 group-hover:text-[#FF5A00] transition-colors">
                   {s.step}
                 </span>
 
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-orange-500/15 text-primary flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-orange-500/15 text-[#FF5A00] flex items-center justify-center group-hover:scale-105 transition-transform">
                   <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
               </div>
 
               {/* Title & Description */}
               <div className="space-y-1">
-                <h3 className="text-xs sm:text-sm font-bold text-foreground group-hover:text-primary transition-colors leading-tight">
+                <h3 className="text-xs sm:text-sm font-bold text-white group-hover:text-[#FF5A00] transition-colors leading-tight">
                   {s.title}
                 </h3>
 
-                <p className="text-[10px] sm:text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">
+                <p className="text-[10px] sm:text-[11px] text-slate-300 line-clamp-2 leading-relaxed">
                   {s.description}
                 </p>
               </div>
 
               {/* Action Link */}
-              <div className="pt-2 mt-2 border-t border-border">
+              <div className="pt-2 mt-2 border-t border-slate-800/70">
                 <Link
                   to={s.link}
-                  className="text-[10.5px] sm:text-xs font-bold text-primary hover:text-primary/80 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
+                  className="text-[10.5px] sm:text-xs font-bold text-[#FF5A00] hover:text-[#e04e00] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
                 >
                   <span>{s.actionText}</span>
                   <ChevronRight className="w-3 h-3" />

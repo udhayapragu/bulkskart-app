@@ -104,7 +104,7 @@ export default function ReviewsHomeSection() {
   };
 
   return (
-    <section className="relative z-20 py-10 md:py-14 bg-card border-t border-border/80">
+    <section className="relative z-20 py-10 md:py-14 bg-[#0B0F19] border-t border-border/80">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-5 md:px-6">
 
         {/* Section Header with Aggregated Score & Left/Right Scroll Controls */}

@@ -796,10 +796,10 @@ export default function FeaturedProductsSection() {
   };
 
   return (
-    <section className="py-6 md:py-8 bg-card border-b border-border text-foreground relative overflow-hidden">
+    <section className="py-6 md:py-8 bg-[#15181F] border-b border-white/10 text-foreground relative overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#FF5A00]/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#FF5A00]/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="w-full max-w-[1440px] mx-auto px-3.5 sm:px-5 md:px-6 relative z-10">
 
@@ -807,11 +807,11 @@ export default function FeaturedProductsSection() {
         <div className="mb-4 sm:mb-5">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
             <div className="flex items-start gap-2.5">
-              <span className="w-1.5 h-7 md:h-8 bg-gradient-to-b from-primary to-primary rounded-full inline-block shrink-0 mt-1 shadow-[0_0_10px_#FF5A00]" />
+              <span className="w-1.5 h-7 md:h-8 bg-gradient-to-b from-[#FF5A00] to-[#FF7A00] rounded-full inline-block shrink-0 mt-1 shadow-[0_0_10px_#FF5A00]" />
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-foreground tracking-tight leading-tight">
-                    Featured <span className="text-primary">Products</span>
+                    Featured <span className="text-[#FF5A00]">Products</span>
                   </h2>
                   <span className="text-[11px] sm:text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-mono border border-border">
                     {totalCount.toLocaleString()}+ Items
@@ -851,13 +851,13 @@ export default function FeaturedProductsSection() {
                 className="h-8 px-2.5 bg-card border-border hover:bg-muted text-xs rounded-lg"
                 title="Shuffle & refresh featured catalog"
               >
-                <RefreshCw className={`w-3.5 h-3.5 ${loading || isRotating ? 'animate-spin text-primary' : ''}`} />
+                <RefreshCw className={`w-3.5 h-3.5 ${loading || isRotating ? 'animate-spin text-[#FF5A00]' : ''}`} />
                 <span className="hidden sm:inline ml-1.5">Refresh</span>
               </Button>
 
               <Link
                 to="/products"
-                className="h-8 border border-primary/50 hover:border-primary text-primary hover:bg-primary/10 font-bold text-xs sm:text-sm px-3 rounded-lg flex items-center gap-1.5 transition-all group"
+                className="h-8 border border-[#FF5A00]/50 hover:border-[#FF5A00] text-[#FF5A00] hover:bg-[#FF5A00]/10 font-bold text-xs sm:text-sm px-3 rounded-lg flex items-center gap-1.5 transition-all group"
               >
                 <span>View All ({totalCount.toLocaleString()})</span>
                 <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -871,7 +871,7 @@ export default function FeaturedProductsSection() {
           {/* Scroll left button */}
           <button
             onClick={() => scrollCategories('left')}
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-card border border-border text-foreground items-center justify-center hover:bg-primary hover:text-foreground hover:border-primary transition-colors shadow-lg"
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-card border border-border text-foreground items-center justify-center hover:bg-[#FF5A00] hover:text-white hover:border-[#FF5A00] transition-colors shadow-lg"
             aria-label="Scroll categories left"
           >
             <ChevronRight className="w-4 h-4 rotate-180" />
@@ -895,7 +895,7 @@ export default function FeaturedProductsSection() {
                   }}
                   className={`whitespace-nowrap flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm transition-all shrink-0 font-medium ${
                     active
-                      ? 'bg-gradient-to-r from-primary to-primary/90 text-foreground font-bold shadow-[0_0_14px_rgba(255,90,0,0.35)] border border-primary'
+                      ? 'bg-gradient-to-r from-[#FF5A00] to-[#e04f00] text-white font-bold shadow-[0_0_14px_rgba(255,90,0,0.35)] border border-[#FF5A00]'
                       : 'bg-card text-foreground/80 hover:text-foreground border border-border hover:border-foreground/20 hover:bg-muted'
                   }`}
                 >
@@ -908,7 +908,7 @@ export default function FeaturedProductsSection() {
           {/* Scroll right button */}
           <button
             onClick={() => scrollCategories('right')}
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-card border border-border text-foreground items-center justify-center hover:bg-primary hover:text-foreground hover:border-primary transition-colors shadow-lg"
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-card border border-border text-foreground items-center justify-center hover:bg-[#FF5A00] hover:text-white hover:border-[#FF5A00] transition-colors shadow-lg"
             aria-label="Scroll categories right"
           >
             <ChevronRight className="w-4 h-4" />
@@ -927,7 +927,7 @@ export default function FeaturedProductsSection() {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Search 5,000+ products (e.g. Solar panels, Cotton, CNC, Food truck)..."
-                className="pl-9 pr-8 h-9 text-xs sm:text-sm bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg focus-visible:ring-1 focus-visible:ring-[#FF5A00] focus-visible:border-primary"
+                className="pl-9 pr-8 h-9 text-xs sm:text-sm bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg focus-visible:ring-1 focus-visible:ring-[#FF5A00] focus-visible:border-[#FF5A00]"
               />
               {searchQuery && (
                 <button
@@ -1030,7 +1030,7 @@ export default function FeaturedProductsSection() {
                     size="sm"
                     className={`h-9 px-3 rounded-lg text-xs font-semibold flex items-center gap-1.5 flex-1 sm:flex-initial ${
                       activeFilterCount > 0
-                        ? 'bg-primary text-foreground border-primary'
+                        ? 'bg-[#FF5A00] text-white border-[#FF5A00]'
                         : 'bg-card text-foreground border-border hover:bg-muted'
                     }`}
                   >
@@ -1041,7 +1041,7 @@ export default function FeaturedProductsSection() {
                 <SheetContent side="left" className="bg-background border-r border-border text-foreground w-[300px] sm:w-[360px] p-5 overflow-y-auto">
                   <SheetHeader className="mb-5 pb-3 border-b border-border text-left">
                     <SheetTitle className="text-foreground text-base font-bold flex items-center gap-2">
-                      <Filter className="w-4 h-4 text-primary" />
+                      <Filter className="w-4 h-4 text-[#FF5A00]" />
                       Marketplace Filters
                     </SheetTitle>
                   </SheetHeader>
@@ -1149,7 +1149,7 @@ export default function FeaturedProductsSection() {
                         type="checkbox"
                         checked={verifiedOnly}
                         onChange={e => { setVerifiedOnly(e.target.checked); setPage(1); }}
-                        className="w-4 h-4 accent-primary rounded cursor-pointer"
+                        className="w-4 h-4 accent-[#FF5A00] rounded cursor-pointer"
                       />
                     </div>
 
@@ -1173,7 +1173,7 @@ export default function FeaturedProductsSection() {
                     <div className="pt-4 border-t border-border space-y-2">
                       <Button
                         onClick={() => setMobileFilterOpen(false)}
-                        className="w-full bg-primary hover:bg-primary/90 text-foreground font-bold h-9 rounded-lg"
+                        className="w-full bg-[#FF5A00] hover:bg-[#e04f00] text-white font-bold h-9 rounded-lg"
                       >
                         Apply Filters ({totalCount.toLocaleString()} Results)
                       </Button>
@@ -1193,7 +1193,7 @@ export default function FeaturedProductsSection() {
               {activeFilterCount > 0 && (
                 <button
                   onClick={handleResetFilters}
-                  className="text-[11px] text-primary hover:underline flex items-center gap-1 px-1.5 py-1 whitespace-nowrap"
+                  className="text-[11px] text-[#FF5A00] hover:underline flex items-center gap-1 px-1.5 py-1 whitespace-nowrap"
                 >
                   <X className="w-3 h-3" />
                   <span>Clear ({activeFilterCount})</span>
@@ -1228,7 +1228,7 @@ export default function FeaturedProductsSection() {
             <p className="text-muted-foreground text-xs mb-4">{error}</p>
             <Button
               onClick={() => fetchProducts(1, false)}
-              className="bg-primary hover:bg-primary/90 text-foreground font-bold text-xs h-8 px-4 rounded-lg"
+              className="bg-[#FF5A00] hover:bg-[#e04f00] text-white font-bold text-xs h-8 px-4 rounded-lg"
             >
               Retry Loading Catalog
             </Button>
@@ -1243,7 +1243,7 @@ export default function FeaturedProductsSection() {
             </p>
             <Button
               onClick={handleResetFilters}
-              className="bg-primary hover:bg-primary/90 text-foreground font-bold text-xs sm:text-sm h-9 px-5 rounded-lg shadow-lg shadow-primary/20"
+              className="bg-[#FF5A00] hover:bg-[#e04f00] text-white font-bold text-xs sm:text-sm h-9 px-5 rounded-lg shadow-lg shadow-[#FF5A00]/20"
             >
               Clear All Filters
             </Button>
@@ -1255,7 +1255,7 @@ export default function FeaturedProductsSection() {
               <div className="md:hidden mb-4">
                 <div className="flex items-center justify-between mb-2 px-0.5">
                   <span className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                    <Flame className="w-3.5 h-3.5 text-primary" />
+                    <Flame className="w-3.5 h-3.5 text-[#FF5A00]" />
                     <span>Trending Wholesale Deals</span>
                   </span>
                   <span className="text-[10px] text-muted-foreground font-medium">Swipe to browse →</span>
@@ -1269,7 +1269,7 @@ export default function FeaturedProductsSection() {
                     return (
                       <div
                         key={`carousel-${product.id}`}
-                        className="shrink-0 w-[150px] min-[360px]:w-[165px] snap-start bg-card border border-border hover:border-primary/50 rounded-xl overflow-hidden flex flex-col justify-between shadow-sm"
+                        className="shrink-0 w-[150px] min-[360px]:w-[165px] snap-start bg-card border border-border hover:border-[#FF5A00]/50 rounded-xl overflow-hidden flex flex-col justify-between shadow-sm"
                       >
                         <div className="relative aspect-square w-full bg-muted overflow-hidden">
                           <SafeImage
@@ -1278,18 +1278,18 @@ export default function FeaturedProductsSection() {
                             className="w-full h-full object-cover"
                             sizes="165px"
                           />
-                          <span className="absolute top-1 left-1 bg-primary text-foreground text-[8.5px] font-bold px-1.5 py-0.2 rounded shadow">
+                          <span className="absolute top-1 left-1 bg-[#FF5A00] text-white text-[8.5px] font-bold px-1.5 py-0.2 rounded shadow">
                             {product.badgeLabel}
                           </span>
                         </div>
                         <div className="p-2 flex-1 flex flex-col justify-between">
                           <Link to={product.slug ? `/products/${product.slug}` : `/products/${product.id}`}>
-                            <h4 className="text-[11px] font-bold text-foreground line-clamp-2 leading-tight hover:text-primary">
+                            <h4 className="text-[11px] font-bold text-foreground line-clamp-2 leading-tight hover:text-[#FF5A00]">
                               {product.name}
                             </h4>
                           </Link>
                           <div className="mt-1 pt-1 border-t border-border">
-                            <div className="text-primary font-black text-xs leading-none">
+                            <div className="text-[#FF5A00] font-black text-xs leading-none">
                               {minFormatted}
                             </div>
                             <div className="text-[9.5px] text-amber-500 font-semibold mt-0.5 truncate">
@@ -1299,7 +1299,7 @@ export default function FeaturedProductsSection() {
                           <Button
                             onClick={() => openQuoteModal(product)}
                             size="sm"
-                            className="w-full h-7 mt-2 bg-primary hover:bg-primary/90 text-foreground text-[10px] font-bold rounded-lg p-0"
+                            className="w-full h-7 mt-2 bg-[#FF5A00] hover:bg-[#e04f00] text-white text-[10px] font-bold rounded-lg p-0"
                           >
                             Get Best Price
                           </Button>
@@ -1325,7 +1325,7 @@ export default function FeaturedProductsSection() {
               return (
                 <div
                   key={`${product.id}-${rotationOffset}`}
-                  className="group bg-card hover:bg-muted/40 border border-border hover:border-primary/50 rounded-xl overflow-hidden transition-all duration-300 flex flex-col shadow-sm hover:shadow-[0_8px_24px_rgba(255,90,0,0.12)] relative animate-in fade-in duration-300"
+                  className="group bg-card hover:bg-muted/40 border border-border hover:border-[#FF5A00]/50 rounded-xl overflow-hidden transition-all duration-300 flex flex-col shadow-sm hover:shadow-[0_8px_24px_rgba(255,90,0,0.12)] relative animate-in fade-in duration-300"
                 >
                     {/* ── Product Image Container ── */}
                     <div className="relative aspect-square w-full bg-muted overflow-hidden">
@@ -1350,10 +1350,10 @@ export default function FeaturedProductsSection() {
                         product.badgeType === 'best_seller'
                           ? 'bg-amber-500 text-black'
                           : product.badgeType === 'bulk_deal'
-                          ? 'bg-primary text-foreground'
+                          ? 'bg-[#FF5A00] text-white'
                           : product.badgeType === 'new_arrival'
-                          ? 'bg-primary text-foreground'
-                          : 'bg-emerald-600 text-foreground'
+                          ? 'bg-[#FF5A00] text-white'
+                          : 'bg-emerald-600 text-white'
                       }`}>
                         {product.badgeType === 'best_seller' && <Crown className="w-2.5 h-2.5" />}
                         {product.badgeType === 'bulk_deal' && <Tag className="w-2.5 h-2.5" />}
@@ -1370,18 +1370,18 @@ export default function FeaturedProductsSection() {
                         e.stopPropagation();
                         toggleFavorite(product.id, product.name);
                       }}
-                      className="absolute top-1.5 right-1.5 z-10 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-sm border border-border flex items-center justify-center transition-all"
+                      className="absolute top-1.5 right-1.5 z-10 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all"
                       aria-label="Save to wishlist"
                     >
                       <Heart
                         className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${
-                          isFav ? 'fill-red-500 text-red-500' : 'text-foreground/80 hover:text-foreground'
+                          isFav ? 'fill-red-500 text-red-500' : 'text-white/80 hover:text-white'
                         }`}
                       />
                     </button>
 
                     {/* Bottom-right image badge: Origin Country (without overlapping bottom-left Representative image tag) */}
-                    <div className="absolute bottom-1.5 right-1.5 z-10 flex items-center gap-1 bg-black/60 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-foreground font-medium">
+                    <div className="absolute bottom-1.5 right-1.5 z-10 flex items-center gap-1 bg-black/60 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-white font-medium">
                       <span>{product.countryFlag || '🌐'}</span>
                       <span className="truncate max-w-[80px]">{product.country}</span>
                     </div>
@@ -1392,7 +1392,7 @@ export default function FeaturedProductsSection() {
                     {/* Product Title */}
                     <Link
                       to={product.slug ? `/products/${product.slug}` : `/products/${product.id}`}
-                      className="block group-hover:text-primary transition-colors"
+                      className="block group-hover:text-[#FF5A00] transition-colors"
                     >
                       <h3
                         className="font-bold text-foreground text-xs sm:text-[13px] md:text-sm leading-snug line-clamp-2 min-h-[2.4em] mb-1"
@@ -1420,7 +1420,7 @@ export default function FeaturedProductsSection() {
                           : formatPrice(product.usdMax);
 
                         return (
-                          <div className="text-primary font-black text-xs sm:text-sm md:text-[15px] leading-tight flex items-center flex-wrap gap-1">
+                          <div className="text-[#FF5A00] font-black text-xs sm:text-sm md:text-[15px] leading-tight flex items-center flex-wrap gap-1">
                             <span>{minFormatted}</span>
                             {product.usdMax && product.usdMax !== product.usdMin && (
                               <span className="text-muted-foreground font-semibold text-[10px] sm:text-xs">
@@ -1478,7 +1478,7 @@ export default function FeaturedProductsSection() {
 
                       <Button
                         onClick={() => openQuoteModal(product)}
-                        className="h-7 sm:h-7.5 bg-primary hover:bg-primary/90 text-foreground text-[10px] sm:text-[11px] font-bold rounded-lg shadow-sm hover:shadow-[0_0_10px_rgba(255,90,0,0.5)] transition-all px-1"
+                        className="h-7 sm:h-7.5 bg-[#FF5A00] hover:bg-[#e04f00] text-white text-[10px] sm:text-[11px] font-bold rounded-lg shadow-sm hover:shadow-[0_0_10px_rgba(255,90,0,0.5)] transition-all px-1"
                       >
                         Get Best Price
                       </Button>
@@ -1502,7 +1502,7 @@ export default function FeaturedProductsSection() {
               <Button
                 onClick={handleLoadMore}
                 disabled={loadingMore}
-                className="bg-primary hover:bg-primary/90 text-foreground font-bold text-xs sm:text-sm h-10 px-6 sm:px-8 rounded-full shadow-lg shadow-primary/25 transition-all flex items-center gap-2 group"
+                className="bg-[#FF5A00] hover:bg-[#e04f00] text-white font-bold text-xs sm:text-sm h-10 px-6 sm:px-8 rounded-full shadow-lg shadow-[#FF5A00]/25 transition-all flex items-center gap-2 group"
               >
                 {loadingMore ? (
                   <>

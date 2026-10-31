@@ -21,19 +21,19 @@ export default function GlobalTradeNetworkSection() {
   return (
     <section className="relative z-20 max-w-7xl mx-auto w-full px-3.5 sm:px-6 lg:px-8 mb-6 sm:mb-10">
       {/* ── Main Glassmorphism Rounded Container (Exact Reference Style) ── */}
-      <div className="relative rounded-3xl bg-card border border-border p-4 sm:p-6 md:p-8 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
+      <div className="relative rounded-3xl bg-[#060B18] border border-[#132038] p-4 sm:p-6 md:p-8 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
         
         {/* Subtle Ambient Glowing Halos */}
-        <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-card/5 blur-[140px] pointer-events-none rounded-full" />
-        <div className="absolute bottom-0 left-10 w-[400px] h-[400px] bg-primary/5 blur-[140px] pointer-events-none rounded-full" />
+        <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-[#00D2FF]/5 blur-[140px] pointer-events-none rounded-full" />
+        <div className="absolute bottom-0 left-10 w-[400px] h-[400px] bg-[#FF5A1F]/5 blur-[140px] pointer-events-none rounded-full" />
 
         {/* ── Header Row: Orange Anchor Icon + Title + Region Dropdown ── */}
         <div className="relative z-10 flex flex-row items-center justify-between gap-4 mb-4 sm:mb-6">
           <div className="flex items-center gap-3 sm:gap-3.5">
             {/* Orange Harbor/Anchor Glyph Container */}
-            <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-gradient-to-br from-primary/25 to-[#FF3B00]/10 border border-primary/35 flex items-center justify-center shrink-0 shadow-lg shadow-primary/15">
+            <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-gradient-to-br from-[#FF5A1F]/25 to-[#FF3B00]/10 border border-[#FF5A1F]/35 flex items-center justify-center shrink-0 shadow-lg shadow-[#FF5A1F]/15">
               <svg
-                className="w-6 h-6 text-primary"
+                className="w-6 h-6 text-[#FF5A1F]"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -51,10 +51,10 @@ export default function GlobalTradeNetworkSection() {
             </div>
 
             <div>
-              <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight leading-tight">
+              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
                 Global Trade Routes
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground font-normal mt-0.5">
+              <p className="text-xs sm:text-sm text-slate-400 font-normal mt-0.5">
                 Discover major ports and shipping routes
               </p>
             </div>
@@ -66,21 +66,21 @@ export default function GlobalTradeNetworkSection() {
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
-                  className="h-9 sm:h-10 px-3.5 sm:px-4 rounded-xl border border-border bg-card/90 hover:bg-card text-foreground/90 hover:text-foreground font-medium text-xs sm:text-sm flex items-center gap-2 transition-all shadow-sm focus:outline-none"
+                  className="h-9 sm:h-10 px-3.5 sm:px-4 rounded-xl border border-slate-700/80 bg-[#0B1528]/90 hover:bg-[#11213D] text-slate-200 hover:text-white font-medium text-xs sm:text-sm flex items-center gap-2 transition-all shadow-sm focus:outline-none"
                 >
                   <span>{selectedRegion}</span>
-                  <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                  <ChevronDown className="w-4 h-4 text-slate-400" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 bg-card border-border text-foreground/90 text-xs">
+              <DropdownMenuContent align="end" className="w-48 bg-[#0B1528] border-slate-700 text-slate-200 text-xs">
                 {regions.map((region) => (
                   <DropdownMenuItem
                     key={region}
                     onClick={() => setSelectedRegion(region)}
-                    className="cursor-pointer hover:bg-muted hover:text-foreground flex items-center justify-between py-2"
+                    className="cursor-pointer hover:bg-slate-800 hover:text-white flex items-center justify-between py-2"
                   >
                     <span>{region}</span>
-                    {selectedRegion === region && <span className="w-1.5 h-1.5 rounded-full bg-primary" />}
+                    {selectedRegion === region && <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F]" />}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -89,7 +89,7 @@ export default function GlobalTradeNetworkSection() {
         </div>
 
         {/* ── Proportionally Scaled SVG World Map Canvas (Exact to Reference Photo) ── */}
-        <div className="relative w-full aspect-[1000/540] rounded-2xl bg-card border border-border overflow-hidden shadow-2xl flex items-center justify-center select-none">
+        <div className="relative w-full aspect-[1000/540] rounded-2xl bg-[#040813] border border-slate-800/80 overflow-hidden shadow-2xl flex items-center justify-center select-none">
           
           <svg
             className="w-full h-full block"
@@ -628,11 +628,11 @@ export default function GlobalTradeNetworkSection() {
         </div>
 
         {/* ── Bottom Map Legend (Exact from Reference Photo) ── */}
-        <div className="flex flex-wrap items-center justify-start gap-6 sm:gap-10 pt-4 px-2 text-xs text-muted-foreground select-none">
+        <div className="flex flex-wrap items-center justify-start gap-6 sm:gap-10 pt-4 px-2 text-xs text-slate-300 select-none">
           {/* Major Ports Indicator */}
           <div className="flex items-center gap-2.5">
-            <span className="w-3.5 h-3.5 rounded-full bg-primary shadow-[0_0_10px_rgba(255,90,31,0.9)] ring-2 ring-[#FF5A1F]/30" />
-            <span className="font-semibold text-foreground tracking-wide text-xs sm:text-sm">
+            <span className="w-3.5 h-3.5 rounded-full bg-[#FF5A1F] shadow-[0_0_10px_rgba(255,90,31,0.9)] ring-2 ring-[#FF5A1F]/30" />
+            <span className="font-semibold text-white tracking-wide text-xs sm:text-sm">
               Major Ports
             </span>
           </div>
@@ -640,11 +640,11 @@ export default function GlobalTradeNetworkSection() {
           {/* Shipping Routes Indicator */}
           <div className="flex items-center gap-2.5">
             <span className="inline-flex items-center gap-1 font-mono text-[#00D2FF]">
-              <span className="w-2.5 h-0.5 bg-card inline-block shadow-[0_0_6px_#00D2FF]" />
-              <span className="w-1 h-0.5 bg-card inline-block shadow-[0_0_6px_#00D2FF]" />
-              <span className="w-2.5 h-0.5 bg-card inline-block shadow-[0_0_6px_#00D2FF]" />
+              <span className="w-2.5 h-0.5 bg-[#00D2FF] inline-block shadow-[0_0_6px_#00D2FF]" />
+              <span className="w-1 h-0.5 bg-[#00D2FF] inline-block shadow-[0_0_6px_#00D2FF]" />
+              <span className="w-2.5 h-0.5 bg-[#00D2FF] inline-block shadow-[0_0_6px_#00D2FF]" />
             </span>
-            <span className="font-semibold text-foreground tracking-wide text-xs sm:text-sm">
+            <span className="font-semibold text-white tracking-wide text-xs sm:text-sm">
               Shipping Routes
             </span>
           </div>
@@ -652,14 +652,14 @@ export default function GlobalTradeNetworkSection() {
           {/* Cargo Movement Indicator */}
           <div className="flex items-center gap-2.5">
             <svg
-              className="w-5 h-5 text-primary shrink-0 fill-[#FF5A1F] drop-shadow-[0_0_6px_rgba(255,90,31,0.8)]"
+              className="w-5 h-5 text-[#FF5A1F] shrink-0 fill-[#FF5A1F] drop-shadow-[0_0_6px_rgba(255,90,31,0.8)]"
               viewBox="0 0 24 24"
             >
               <path d="M2 13h15l4 4h-19z" />
               <path d="M5 9h8v3h-8z" />
               <path d="M7 6h3v2h-3z" />
             </svg>
-            <span className="font-semibold text-foreground tracking-wide text-xs sm:text-sm">
+            <span className="font-semibold text-white tracking-wide text-xs sm:text-sm">
               Cargo Movement
             </span>
           </div>

@@ -66,17 +66,17 @@ export default function HeroSection3D({ onSearch }: HeroSection3DProps) {
         <div className="space-y-6">
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground">
             <Globe className="h-3.5 w-3.5 text-primary" />
-            B2B wholesale marketplace
+            Global B2B marketplace
           </span>
 
           <h1 className="text-4xl font-black leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Buy in bulk from verified
+            Buy in bulk.
             <br />
-            <span className="text-primary">wholesale suppliers in India.</span>
+            <span className="text-primary">Grow bigger.</span>
           </h1>
 
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            The B2B marketplace in India connecting verified manufacturers, suppliers and bulk buyers worldwide. Delivery is free on every order.
+            Connect with verified manufacturers, suppliers and bulk buyers worldwide. Delivery is free on every order.
           </p>
 
           <div className="flex flex-wrap gap-2">

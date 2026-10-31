@@ -8,7 +8,7 @@
  *   - "View All ->" link in brand orange on the right
  * - Card Architecture:
  *   - Modern factory exterior photograph at top (aspect 16/10)
- *   - Dark card container (bg-card with border border-border)
+ *   - Dark card container (bg-[#0f172a] with border border-slate-800)
  *   - Horizontal identity row:
  *     - Square white company logo box on left
  *     - Bold company name (e.g. ABC Industries Private Limited, Global Pack Solutions, Shakti Electricals)
@@ -73,9 +73,9 @@ function FastCatalogImage({
   const optimized = React.useMemo(() => optimizeCatalogUrl(src), [src]);
 
   return (
-    <div className={`relative w-full h-full overflow-hidden bg-muted ${className}`}>
+    <div className={`relative w-full h-full overflow-hidden bg-slate-800 ${className}`}>
       {!loaded && !failed && (
-        <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-muted via-card to-card" />
+        <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800" />
       )}
       {!failed ? (
         <img
@@ -94,7 +94,7 @@ function FastCatalogImage({
           }`}
         />
       ) : (
-        <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-xs font-medium px-3 text-center">
+        <div className="absolute inset-0 flex items-center justify-center text-slate-500 text-xs font-medium px-3 text-center">
           {alt}
         </div>
       )}
@@ -1018,8 +1018,8 @@ function SupplierBrandLogo({ supplier }: { supplier: DisplaySupplier }) {
     default:
       // Clean fallback monogram badge
       return (
-        <div className="w-full h-full rounded-lg bg-card flex items-center justify-center select-none">
-          <span className="font-extrabold text-sm sm:text-base text-foreground tracking-wider">
+        <div className="w-full h-full rounded-lg bg-slate-900 flex items-center justify-center select-none">
+          <span className="font-extrabold text-sm sm:text-base text-white tracking-wider">
             {supplier.name.substring(0, 2).toUpperCase()}
           </span>
         </div>
@@ -1201,35 +1201,35 @@ export default function VerifiedSuppliersSection() {
   };
 
   return (
-    <section className="py-5 sm:py-7 md:py-9 bg-card text-foreground relative overflow-hidden border-b border-border">
+    <section className="py-5 sm:py-7 md:py-9 bg-[#030712] text-white relative overflow-hidden border-b border-slate-900">
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-5 md:px-6">
 
         {/* ── SECTION HEADER (Exact to Reference Mockup file_00000000825482068b8a3f7235eeb10d.png) ── */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3.5 sm:mb-4">
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-            <h2 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-foreground tracking-tight flex items-center gap-2">
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
               <span>Verified Suppliers</span>
               {/* Orange circular badge with white checkmark matching reference mockup */}
               <span
-                className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-sm shadow-primary/40"
+                className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#FF5A00] flex items-center justify-center shrink-0 shadow-sm shadow-[#FF5A00]/40"
                 title="Verified Global Suppliers"
               >
-                <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-foreground stroke-[3.5]" />
+                <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white stroke-[3.5]" />
               </span>
             </h2>
 
             {/* 30-Second Live Simulation Countdown Badge */}
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-[11px] font-bold shadow-sm">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FF5A00]/10 border border-[#FF5A00]/30 text-[#FF5A00] text-[11px] font-bold shadow-sm">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5A00] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5A00]"></span>
               </span>
               <span>30s Auto-Update: {secondsLeft}s</span>
               <button
                 type="button"
                 onClick={handleManualRotate}
                 title="Show next unique suppliers"
-                className={`ml-1 text-primary hover:text-foreground transition-transform ${isRotating ? 'rotate-180 animate-spin' : 'hover:scale-110'}`}
+                className={`ml-1 text-[#FF5A00] hover:text-white transition-transform ${isRotating ? 'rotate-180 animate-spin' : 'hover:scale-110'}`}
               >
                 <RefreshCw className="w-3 h-3" />
               </button>
@@ -1241,7 +1241,7 @@ export default function VerifiedSuppliersSection() {
                 type="button"
                 onClick={() => scrollSuppliers('left')}
                 aria-label="Scroll verified suppliers left"
-                className="h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-card hover:bg-primary text-muted-foreground hover:text-foreground border border-border hover:border-primary flex items-center justify-center transition-all shadow-sm"
+                className="h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-[#111827] hover:bg-[#FF5A00] text-slate-300 hover:text-white border border-slate-700 hover:border-[#FF5A00] flex items-center justify-center transition-all shadow-sm"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -1249,7 +1249,7 @@ export default function VerifiedSuppliersSection() {
                 type="button"
                 onClick={() => scrollSuppliers('right')}
                 aria-label="Scroll verified suppliers right"
-                className="h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-card hover:bg-primary text-muted-foreground hover:text-foreground border border-border hover:border-primary flex items-center justify-center transition-all shadow-sm"
+                className="h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-[#111827] hover:bg-[#FF5A00] text-slate-300 hover:text-white border border-slate-700 hover:border-[#FF5A00] flex items-center justify-center transition-all shadow-sm"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -1258,7 +1258,7 @@ export default function VerifiedSuppliersSection() {
 
           <Link
             to="/manufacturers"
-            className="text-primary hover:text-primary/80 font-bold text-xs sm:text-sm md:text-base flex items-center gap-1 transition-colors shrink-0 group"
+            className="text-[#FF5A00] hover:text-[#ff7429] font-bold text-xs sm:text-sm md:text-base flex items-center gap-1 transition-colors shrink-0 group"
           >
             <span>View All</span>
             <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -1266,9 +1266,9 @@ export default function VerifiedSuppliersSection() {
         </div>
 
         {/* 30-Second Live Progress Timeline Bar */}
-        <div className="w-full h-1 bg-card rounded-full overflow-hidden mb-3 sm:mb-3.5" title={`Auto-updates every ${ROTATION_SECONDS}s (${secondsLeft}s remaining)`}>
+        <div className="w-full h-1 bg-slate-900 rounded-full overflow-hidden mb-3 sm:mb-3.5" title={`Auto-updates every ${ROTATION_SECONDS}s (${secondsLeft}s remaining)`}>
           <div
-            className="h-full bg-gradient-to-r from-primary via-primary to-primary/90 transition-all duration-1000 ease-linear rounded-full"
+            className="h-full bg-gradient-to-r from-[#FF5A00] via-[#FF7A00] to-[#FF5A00] transition-all duration-1000 ease-linear rounded-full"
             style={{ width: `${((ROTATION_SECONDS - secondsLeft) / ROTATION_SECONDS) * 100}%` }}
           />
         </div>
@@ -1281,8 +1281,8 @@ export default function VerifiedSuppliersSection() {
               onClick={() => setSelectedCountry(tab.key)}
               className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 select-none ${
                 selectedCountry === tab.key
-                  ? 'bg-primary text-foreground shadow-sm shadow-primary/30 font-bold'
-                  : 'bg-card hover:bg-card text-muted-foreground hover:text-foreground border border-border'
+                  ? 'bg-[#FF5A00] text-white shadow-sm shadow-[#FF5A00]/30 font-bold'
+                  : 'bg-[#111827] hover:bg-[#1f2937] text-slate-300 hover:text-white border border-slate-800'
               }`}
             >
               <span className="text-xs">{tab.flag}</span>
@@ -1297,7 +1297,7 @@ export default function VerifiedSuppliersSection() {
             <span>{error}</span>
             <button
               onClick={loadSuppliers}
-              className="flex items-center gap-1 px-3 py-1 bg-rose-600 hover:bg-rose-500 text-foreground font-semibold rounded-lg transition-colors"
+              className="flex items-center gap-1 px-3 py-1 bg-rose-600 hover:bg-rose-500 text-white font-semibold rounded-lg transition-colors"
             >
               <RefreshCw className="w-3.5 h-3.5" /> Retry
             </button>
@@ -1311,27 +1311,27 @@ export default function VerifiedSuppliersSection() {
             {Array.from({ length: 4 }).map((_, idx) => (
               <div
                 key={idx}
-                className="bg-card border border-border rounded-2xl p-4 animate-pulse flex flex-col justify-between h-[280px]"
+                className="bg-[#0f172a] border border-slate-800 rounded-2xl p-4 animate-pulse flex flex-col justify-between h-[280px]"
               >
-                <div className="aspect-[16/10] bg-muted rounded-xl mb-3" />
+                <div className="aspect-[16/10] bg-slate-800 rounded-xl mb-3" />
                 <div className="flex gap-3 items-center">
-                  <div className="w-12 h-12 rounded-xl bg-muted shrink-0" />
+                  <div className="w-12 h-12 rounded-xl bg-slate-800 shrink-0" />
                   <div className="flex-1 space-y-2">
-                    <div className="h-4 bg-muted rounded w-3/4" />
-                    <div className="h-3 bg-muted rounded w-1/2" />
+                    <div className="h-4 bg-slate-800 rounded w-3/4" />
+                    <div className="h-3 bg-slate-800 rounded w-1/2" />
                   </div>
                 </div>
-                <div className="h-9 bg-muted rounded-xl w-full mt-3" />
+                <div className="h-9 bg-slate-800 rounded-xl w-full mt-3" />
               </div>
             ))}
           </div>
         ) : displayedSuppliers.length === 0 ? (
-          <div className="py-12 text-center bg-card rounded-2xl border border-border p-6">
-            <Building2 className="w-10 h-10 text-primary mx-auto mb-2 opacity-80" />
-            <p className="text-foreground font-semibold text-sm">No verified suppliers found for this region.</p>
+          <div className="py-12 text-center bg-[#0f172a] rounded-2xl border border-slate-800 p-6">
+            <Building2 className="w-10 h-10 text-[#FF5A00] mx-auto mb-2 opacity-80" />
+            <p className="text-white font-semibold text-sm">No verified suppliers found for this region.</p>
             <button
               onClick={() => setSelectedCountry('all')}
-              className="mt-3 bg-primary hover:bg-primary/90 text-foreground text-xs px-4 py-2 rounded-xl font-bold transition-colors"
+              className="mt-3 bg-[#FF5A00] hover:bg-[#ff7429] text-white text-xs px-4 py-2 rounded-xl font-bold transition-colors"
             >
               Show All Global Suppliers
             </button>
@@ -1345,7 +1345,7 @@ export default function VerifiedSuppliersSection() {
             {displayedSuppliers.map((s, idx) => (
               <div
                 key={`${s.id}-${s.img}`}
-                className={`w-[275px] sm:w-[295px] md:w-auto shrink-0 md:shrink snap-start bg-card hover:bg-card border border-border hover:border-primary/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between group shadow-lg min-w-0 ${
+                className={`w-[275px] sm:w-[295px] md:w-auto shrink-0 md:shrink snap-start bg-[#0f172a] hover:bg-[#131d33] border border-slate-800/90 hover:border-[#FF5A00]/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between group shadow-lg min-w-0 ${
                   isRotating ? 'opacity-70 scale-[0.99]' : 'opacity-100 scale-100'
                 }`}
               >
@@ -1353,7 +1353,7 @@ export default function VerifiedSuppliersSection() {
                   {/* Alibaba-style product catalog photo — optimized WebP, unique per card */}
                   <div
                     onClick={() => handleViewProducts(s)}
-                    className="aspect-[16/10] w-full overflow-hidden bg-card relative cursor-pointer"
+                    className="aspect-[16/10] w-full overflow-hidden bg-slate-900 relative cursor-pointer"
                   >
                     <FastCatalogImage
                       src={s.img}
@@ -1362,19 +1362,19 @@ export default function VerifiedSuppliersSection() {
                       className="group-hover:[&_img]:scale-105 [&_img]:transition-transform [&_img]:duration-500 [&_img]:ease-out"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                    <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-primary/40 text-primary text-[10px] font-bold shadow-sm">
+                    <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-[#FF5A00]/40 text-[#FF5A00] text-[10px] font-bold shadow-sm">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
                       <span>Verified Manufacturer</span>
                     </div>
                     {s.sampleProduct ? (
                       <div className="absolute bottom-2 left-2.5 right-2.5 z-10 pointer-events-none">
-                        <span className="inline-block max-w-full truncate rounded-md bg-black/60 backdrop-blur-sm px-2 py-0.5 text-[10px] font-semibold tracking-wide text-slate-100 border border-border">
+                        <span className="inline-block max-w-full truncate rounded-md bg-black/60 backdrop-blur-sm px-2 py-0.5 text-[10px] font-semibold tracking-wide text-slate-100 border border-white/10">
                           {s.sampleProduct}
                         </span>
                       </div>
                     ) : s.industry ? (
                       <div className="absolute bottom-2 left-2.5 right-2.5 z-10 pointer-events-none">
-                        <span className="inline-block max-w-full truncate rounded-md bg-black/55 backdrop-blur-sm px-2 py-0.5 text-[10px] font-semibold tracking-wide text-slate-100 border border-border">
+                        <span className="inline-block max-w-full truncate rounded-md bg-black/55 backdrop-blur-sm px-2 py-0.5 text-[10px] font-semibold tracking-wide text-slate-100 border border-white/10">
                           {s.industry}
                         </span>
                       </div>
@@ -1394,25 +1394,25 @@ export default function VerifiedSuppliersSection() {
                       <div className="flex-1 min-w-0">
                         <h3
                           onClick={() => handleViewProducts(s)}
-                          className="font-bold text-foreground text-sm sm:text-[14px] leading-snug line-clamp-2 group-hover:text-primary transition-colors cursor-pointer"
+                          className="font-bold text-white text-sm sm:text-[14px] leading-snug line-clamp-2 group-hover:text-[#FF5A00] transition-colors cursor-pointer"
                           title={s.name}
                         >
                           {s.name}
                         </h3>
 
-                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-1.5">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-300 mt-1.5">
                           <span className="text-sm shrink-0 leading-none">{s.flag}</span>
                           <span className="truncate">{s.country}</span>
                         </div>
 
-                        <div className="flex items-center gap-1 text-xs text-primary font-semibold mt-1">
-                          <BadgeCheck className="w-3.5 h-3.5 text-primary shrink-0" />
+                        <div className="flex items-center gap-1 text-xs text-[#FF5A00] font-semibold mt-1">
+                          <BadgeCheck className="w-3.5 h-3.5 text-[#FF5A00] shrink-0" />
                           <span className="truncate">Verified Supplier</span>
                         </div>
 
                         {s.sampleProduct && (
                           <p
-                            className="mt-1.5 text-[11px] text-muted-foreground line-clamp-2 leading-snug"
+                            className="mt-1.5 text-[11px] text-slate-400 line-clamp-2 leading-snug"
                             title={s.sampleProduct}
                           >
                             {s.sampleProduct}
@@ -1427,10 +1427,10 @@ export default function VerifiedSuppliersSection() {
                   <button
                     type="button"
                     onClick={() => handleViewProducts(s)}
-                    className="w-full bg-card hover:bg-primary text-foreground border border-border hover:border-primary rounded-xl py-2 px-3.5 text-xs sm:text-sm font-semibold flex items-center justify-between transition-all duration-200 shadow-sm active:scale-[0.99] group/btn"
+                    className="w-full bg-[#162032] hover:bg-[#FF5A00] text-white border border-slate-700/80 hover:border-[#FF5A00] rounded-xl py-2 px-3.5 text-xs sm:text-sm font-semibold flex items-center justify-between transition-all duration-200 shadow-sm active:scale-[0.99] group/btn"
                   >
                     <span className="font-medium">View Products</span>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground group-hover/btn:text-foreground group-hover/btn:translate-x-0.5 transition-all shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-slate-400 group-hover/btn:text-white group-hover/btn:translate-x-0.5 transition-all shrink-0" />
                   </button>
                 </div>
               </div>

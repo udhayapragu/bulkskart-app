@@ -265,15 +265,15 @@ export default function LiveReverseAuctionsRail() {
       {/* Header — wraps cleanly on laptop widths */}
       <div className="flex flex-col gap-3 mb-3 sm:mb-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center gap-2 flex-wrap min-w-0">
-          <Flame className="w-4 h-4 text-primary animate-bounce shrink-0" />
-          <h2 className="text-xs sm:text-sm font-extrabold text-foreground tracking-wider uppercase flex items-center gap-2">
+          <Flame className="w-4 h-4 text-[#FF5A00] animate-bounce shrink-0" />
+          <h2 className="text-xs sm:text-sm font-extrabold text-white tracking-wider uppercase flex items-center gap-2">
             Sell Products in 24 Hours
-            <span className="text-primary font-black bg-primary/15 px-1.5 py-0.5 rounded text-[10px] border border-primary/30">
+            <span className="text-[#FF5A00] font-black bg-[#FF5A00]/15 px-1.5 py-0.5 rounded text-[10px] border border-[#FF5A00]/30">
               HOT
             </span>
           </h2>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/15 border border-primary/30 text-foreground text-[11px] font-medium">
-            <RefreshCw className={`w-3 h-3 text-primary ${isSyncing ? 'animate-spin' : ''}`} />
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FF5A00]/15 border border-[#FF5A00]/30 text-white text-[11px] font-medium">
+            <RefreshCw className={`w-3 h-3 text-[#FF5A00] ${isSyncing ? 'animate-spin' : ''}`} />
             <span>
               {isHovered ? (
                 <span className="text-amber-400 font-semibold">Paused on hover</span>
@@ -281,7 +281,7 @@ export default function LiveReverseAuctionsRail() {
                 <span className="text-amber-400 font-semibold">Feed Paused</span>
               ) : (
                 <span>
-                  Next batch in <strong className="text-primary font-mono font-bold">{secondsRemaining}s</strong>
+                  Next batch in <strong className="text-[#FF5A00] font-mono font-bold">{secondsRemaining}s</strong>
                 </span>
               )}
             </span>
@@ -293,7 +293,7 @@ export default function LiveReverseAuctionsRail() {
             type="button"
             onClick={() => setIsPaused((p) => !p)}
             aria-label={isPaused ? 'Resume 25s auto-cycle' : 'Pause 25s auto-cycle'}
-            className="w-7 h-7 rounded-lg bg-muted/80 hover:bg-muted text-muted-foreground hover:text-foreground flex items-center justify-center transition-all border border-border"
+            className="w-7 h-7 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-all border border-slate-700/80"
             title={isPaused ? 'Resume auto rotation' : 'Pause auto rotation'}
           >
             {isPaused ? <Play className="w-3.5 h-3.5 fill-current" /> : <Pause className="w-3.5 h-3.5" />}
@@ -308,8 +308,8 @@ export default function LiveReverseAuctionsRail() {
                 aria-label={`Jump to auction batch ${idx + 1}`}
                 className={`h-2 rounded-full transition-all duration-300 shrink-0 ${
                   idx === page
-                    ? 'w-5 bg-primary shadow-[0_0_8px_rgba(255,90,0,0.6)]'
-                    : 'w-2 bg-muted hover:bg-muted-foreground/40'
+                    ? 'w-5 bg-[#FF5A00] shadow-[0_0_8px_rgba(255,90,0,0.6)]'
+                    : 'w-2 bg-slate-700 hover:bg-slate-500'
                 }`}
               />
             ))}
@@ -320,7 +320,7 @@ export default function LiveReverseAuctionsRail() {
               type="button"
               onClick={handlePrevPage}
               aria-label="Previous auction batch"
-              className="w-7 h-7 rounded-lg bg-muted/80 hover:bg-muted text-muted-foreground hover:text-foreground flex items-center justify-center transition-all border border-border active:scale-95"
+              className="w-7 h-7 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-all border border-slate-700/80 active:scale-95"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -328,18 +328,18 @@ export default function LiveReverseAuctionsRail() {
               type="button"
               onClick={handleNextPage}
               aria-label="Next auction batch"
-              className="w-7 h-7 rounded-lg bg-muted/80 hover:bg-muted text-muted-foreground hover:text-foreground flex items-center justify-center transition-all border border-border active:scale-95"
+              className="w-7 h-7 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-all border border-slate-700/80 active:scale-95"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="h-4 w-px bg-muted hidden sm:block" />
+          <div className="h-4 w-px bg-slate-800 hidden sm:block" />
 
           <Button
             type="button"
             onClick={() => setIsCreateOpen(true)}
-            className="bg-primary hover:bg-primary/90 text-foreground text-xs font-bold h-8 px-3 rounded-xl shadow-[0_2px_0_#922f00] flex items-center gap-1.5 shrink-0 transition-all active:translate-y-0.5 active:shadow-none"
+            className="bg-[#FF5A00] hover:bg-[#e04e00] text-white text-xs font-bold h-8 px-3 rounded-xl shadow-[0_2px_0_#922f00] flex items-center gap-1.5 shrink-0 transition-all active:translate-y-0.5 active:shadow-none"
           >
             <Sparkles className="w-3.5 h-3.5" />
             <span className="hidden min-[420px]:inline">List Product in 24h</span>
@@ -348,7 +348,7 @@ export default function LiveReverseAuctionsRail() {
 
           <Link
             to="/auctions"
-            className="text-xs sm:text-sm font-bold text-primary hover:text-primary/80 flex items-center gap-1 transition-colors group shrink-0"
+            className="text-xs sm:text-sm font-bold text-[#FF5A00] hover:text-[#e04e00] flex items-center gap-1 transition-colors group shrink-0"
           >
             <span>View All</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -356,9 +356,9 @@ export default function LiveReverseAuctionsRail() {
         </div>
       </div>
 
-      <div className="w-full h-1 bg-muted/80 rounded-full overflow-hidden mb-4">
+      <div className="w-full h-1 bg-slate-800/80 rounded-full overflow-hidden mb-4">
         <div
-          className="h-full bg-gradient-to-r from-amber-500 via-primary to-orange-400 transition-all duration-1000 ease-linear rounded-full"
+          className="h-full bg-gradient-to-r from-amber-500 via-[#FF5A00] to-orange-400 transition-all duration-1000 ease-linear rounded-full"
           style={{ width: `${progressPercent}%` }}
         />
       </div>
@@ -394,34 +394,34 @@ export default function LiveReverseAuctionsRail() {
                     );
                   }
                 }}
-                className="snap-start shrink-0 w-[78vw] max-w-[320px] sm:w-auto sm:max-w-none group bg-card/85 hover:bg-card border border-border hover:border-primary/60 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col cursor-pointer min-h-0"
+                className="snap-start shrink-0 w-[78vw] max-w-[320px] sm:w-auto sm:max-w-none group bg-slate-900/85 hover:bg-slate-900 border border-slate-800/90 hover:border-[#FF5A00]/60 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col cursor-pointer min-h-0"
               >
-                <div className="relative aspect-[16/9] w-full overflow-hidden bg-background shrink-0">
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-950 shrink-0">
                   <SafeImage
                     src={auction.image}
                     alt={auction.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
 
                   <div className="absolute top-2 left-2 right-2 flex items-center justify-between gap-1.5 text-[10px] font-bold">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="px-2 py-0.5 rounded-md bg-red-600 text-foreground font-extrabold flex items-center gap-1 shadow-sm shrink-0">
+                      <span className="px-2 py-0.5 rounded-md bg-red-600 text-white font-extrabold flex items-center gap-1 shadow-sm shrink-0">
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
                         LIVE
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md text-foreground border border-border font-mono flex items-center gap-1 shrink-0">
-                        <Clock className="w-3 h-3 text-primary" />
+                      <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md text-white border border-slate-700/80 font-mono flex items-center gap-1 shrink-0">
+                        <Clock className="w-3 h-3 text-[#FF5A1F]" />
                         {formatTime(timeLeft)}
                       </span>
                     </div>
-                    <span className="px-1.5 py-0.5 rounded-md bg-black/60 text-muted-foreground font-mono text-[9px] truncate max-w-[38%]">
+                    <span className="px-1.5 py-0.5 rounded-md bg-black/60 text-slate-300 font-mono text-[9px] truncate max-w-[38%]">
                       {auction.auctionNumber}
                     </span>
                   </div>
 
                   <div className="absolute bottom-2 left-2 max-w-[75%]">
-                    <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md text-foreground/90 border border-border text-[10px] font-semibold truncate inline-block max-w-full">
+                    <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md text-slate-200 border border-slate-700/60 text-[10px] font-semibold truncate inline-block max-w-full">
                       {auction.category}
                     </span>
                   </div>
@@ -429,24 +429,24 @@ export default function LiveReverseAuctionsRail() {
 
                 <div className="p-3 sm:p-3.5 flex-1 flex flex-col justify-between gap-2.5 min-w-0">
                   <div className="min-w-0">
-                    <h3 className="font-bold text-foreground text-sm group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+                    <h3 className="font-bold text-white text-sm group-hover:text-[#FF5A1F] transition-colors line-clamp-2 leading-snug">
                       {auction.title}
                     </h3>
-                    <div className="text-xs text-muted-foreground font-medium mt-1 truncate">
+                    <div className="text-xs text-slate-300 font-medium mt-1 truncate">
                       {auction.quantity}
                     </div>
-                    <div className="text-sm sm:text-base font-extrabold text-primary mt-1 truncate">
+                    <div className="text-sm sm:text-base font-extrabold text-[#FF5A1F] mt-1 truncate">
                       {auction.priceRange}
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-border flex items-center justify-between text-[11px] text-muted-foreground gap-2">
+                  <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400 gap-2">
                     <div className="flex items-center gap-1 min-w-0 flex-1">
-                      <MapPin className="w-3 h-3 text-primary shrink-0" />
+                      <MapPin className="w-3 h-3 text-[#FF5A1F] shrink-0" />
                       <span className="truncate">{auction.location}</span>
                     </div>
-                    <div className="flex items-center gap-1 font-semibold text-foreground/90 shrink-0">
-                      <Users className="w-3 h-3 text-primary" />
+                    <div className="flex items-center gap-1 font-semibold text-slate-200 shrink-0">
+                      <Users className="w-3 h-3 text-[#FF5A1F]" />
                       <span>{auction.quotedCount} Quoted</span>
                     </div>
                   </div>
@@ -459,9 +459,9 @@ export default function LiveReverseAuctionsRail() {
 
       {/* Mobile Indicator Footer with Batch Label */}
       {allAuctions.length > 0 && (
-        <div className="flex md:hidden items-center justify-between text-[11px] text-muted-foreground mt-2 px-1">
+        <div className="flex md:hidden items-center justify-between text-[11px] text-slate-400 mt-2 px-1">
           <span>Batch {page + 1} of {totalPages} ({allAuctions.length} live auctions)</span>
-          <span className="text-primary font-medium">Swipe to browse cards</span>
+          <span className="text-[#FF5A00] font-medium">Swipe to browse cards</span>
         </div>
       )}
 

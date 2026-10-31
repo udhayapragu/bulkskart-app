@@ -29,9 +29,9 @@ export default function VerifiedSupplierQuickActions() {
       subtitle: 'Browse 1,200+ audited global plants',
       icon: Factory,
       badge: 'Verified',
-      badgeColor: 'bg-primary/15 text-primary border-primary/30',
-      gradient: 'from-primary/20 via-primary/5 to-transparent',
-      borderColor: 'hover:border-primary/60',
+      badgeColor: 'bg-[#FF5A00]/15 text-[#FF5A00] border-[#FF5A00]/30',
+      gradient: 'from-[#FF5A00]/20 via-[#FF5A00]/5 to-transparent',
+      borderColor: 'hover:border-[#FF5A00]/60',
       action: () => navigate('/manufacturers'),
     },
     {
@@ -62,9 +62,9 @@ export default function VerifiedSupplierQuickActions() {
       subtitle: 'Fast-track liquidation auctions & bulk bids',
       icon: Zap,
       badge: 'Hot 24H',
-      badgeColor: 'bg-primary/20 text-primary border-primary/40 animate-pulse',
-      gradient: 'from-primary/25 via-primary/10 to-transparent',
-      borderColor: 'hover:border-primary',
+      badgeColor: 'bg-[#FF5A00]/20 text-[#FF5A00] border-[#FF5A00]/40 animate-pulse',
+      gradient: 'from-[#FF5A00]/25 via-[#FF5A00]/10 to-transparent',
+      borderColor: 'hover:border-[#FF5A00]',
       action: () => navigate('/auctions/reverse'),
     },
     {
@@ -83,29 +83,29 @@ export default function VerifiedSupplierQuickActions() {
   return (
     <section className="relative z-20 max-w-[1400px] mx-auto w-full px-4 sm:px-5 md:px-6 -mt-2 mb-8 sm:mb-14">
       {/* Container with subtle glow and header — matches homepage display width */}
-      <div className="relative rounded-3xl bg-gradient-to-b from-card/90 to-background border border-border/80 p-4 sm:p-5 md:p-6 lg:p-7 shadow-2xl backdrop-blur-xl overflow-hidden">
+      <div className="relative rounded-3xl bg-gradient-to-b from-[#0F172A]/90 to-[#0B0F19] border border-border/80 p-4 sm:p-5 md:p-6 lg:p-7 shadow-2xl backdrop-blur-xl overflow-hidden">
         
         {/* Ambient Top Glow in Brand Orange */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-primary/15 to-transparent blur-2xl pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-[#FF5A00]/15 to-transparent blur-2xl pointer-events-none" />
 
         {/* Section Header */}
         <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-3 mb-5 pb-4 border-b border-border/60">
           <div className="min-w-0 flex-1">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-bold mb-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-primary" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF5A00]/10 border border-[#FF5A00]/25 text-[#FF5A00] text-xs font-bold mb-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#FF5A00]" />
               <span>Direct Trade Workflows</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight leading-tight">
+            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
               Fast-Track Sourcing & Selling Workflows
             </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl">
+            <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
               Accelerate your bulk B2B trade — connect with verified manufacturers or liquidate inventory in 24 hours.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-muted-foreground shrink-0">
+          <div className="flex items-center gap-2 text-xs text-slate-400 shrink-0">
             <span className="flex items-center gap-1.5 whitespace-nowrap">
-              <ShieldCheck className="w-3.5 h-3.5 text-primary shrink-0" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#FF5A00] shrink-0" />
               100% Verified Trade Assurance
             </span>
           </div>
@@ -120,14 +120,14 @@ export default function VerifiedSupplierQuickActions() {
                 key={act.id}
                 type="button"
                 onClick={act.action}
-                className={`group relative text-left rounded-2xl bg-card/90 hover:bg-card border border-border ${act.borderColor} p-3.5 sm:p-4 transition-all duration-200 hover:-translate-y-1 shadow-lg hover:shadow-xl active:scale-[0.98] flex flex-col h-full min-h-[168px] overflow-hidden cursor-pointer`}
+                className={`group relative text-left rounded-2xl bg-[#0c121e]/90 hover:bg-[#121a2b] border border-slate-800/90 ${act.borderColor} p-3.5 sm:p-4 transition-all duration-200 hover:-translate-y-1 shadow-lg hover:shadow-xl active:scale-[0.98] flex flex-col h-full min-h-[168px] overflow-hidden cursor-pointer`}
               >
                 {/* Subtle Card Top Gradient */}
                 <div className={`absolute top-0 left-0 right-0 h-28 bg-gradient-to-b ${act.gradient} pointer-events-none opacity-80`} />
 
                 {/* Top Row: Icon + Badge */}
                 <div className="relative z-10 flex items-start justify-between w-full gap-2 mb-2.5">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-card/90 border border-border flex items-center justify-center text-primary group-hover:scale-105 group-hover:bg-primary group-hover:text-foreground transition-all shadow-md shrink-0">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900/90 border border-slate-700/80 flex items-center justify-center text-[#FF5A00] group-hover:scale-105 group-hover:bg-[#FF5A00] group-hover:text-white transition-all shadow-md shrink-0">
                     <Icon className="w-4.5 h-4.5 sm:w-5 sm:h-5 transition-transform duration-200" />
                   </div>
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${act.badgeColor}`}>
@@ -137,18 +137,18 @@ export default function VerifiedSupplierQuickActions() {
 
                 {/* Middle: Title & Subtitle */}
                 <div className="relative z-10 flex-1 min-w-0 mb-3">
-                  <h3 className="font-extrabold text-foreground text-[13px] sm:text-sm leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                  <h3 className="font-extrabold text-white text-[13px] sm:text-sm leading-snug group-hover:text-[#FF5A00] transition-colors line-clamp-2">
                     {act.title}
                   </h3>
-                  <p className="text-[11px] text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
+                  <p className="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">
                     {act.subtitle}
                   </p>
                 </div>
 
                 {/* Bottom CTA Arrow Button */}
-                <div className="relative z-10 mt-auto pt-2.5 border-t border-border flex items-center justify-between text-xs font-bold text-muted-foreground group-hover:text-primary transition-colors">
+                <div className="relative z-10 mt-auto pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs font-bold text-slate-300 group-hover:text-[#FF5A00] transition-colors">
                   <span>Explore Now</span>
-                  <div className="w-6 h-6 rounded-full bg-muted/80 group-hover:bg-primary flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-all shrink-0">
+                  <div className="w-6 h-6 rounded-full bg-slate-800/80 group-hover:bg-[#FF5A00] flex items-center justify-center text-slate-300 group-hover:text-white transition-all shrink-0">
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </div>

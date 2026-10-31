@@ -107,7 +107,7 @@ export default function PlansHomeSection() {
   };
 
   return (
-    <section className="relative z-20 pt-2 pb-12 md:pt-4 md:pb-16 bg-card border-t-0">
+    <section className="relative z-20 pt-2 pb-12 md:pt-4 md:pb-16 bg-[#0B0F19] border-t-0">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-5 md:px-6">
 
         {/* Section Header */}
