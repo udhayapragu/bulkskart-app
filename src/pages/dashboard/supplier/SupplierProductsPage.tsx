@@ -11,8 +11,9 @@ import type { Product, Category } from '@/types/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { Plus, Edit2, Trash2, Package, Image, Star, Zap, Percent, Video, FileText, AlertCircle, Lock, CheckCircle, Sparkles } from 'lucide-react';
+import { Plus, Edit2, Trash2, Package, Image, Star, Zap, Percent, Video, FileText, AlertCircle, Lock, CheckCircle, Sparkles, Upload } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
+import BulkProductImportDialog from '@/components/common/BulkProductImportDialog';
 import PromoteProductDialog from '@/components/common/PromoteProductDialog';
 import ProductPromotionsPanel from '@/components/common/ProductPromotionsPanel';
 import BulkDiscountRulesPanel from '@/components/common/BulkDiscountRulesPanel';
@@ -47,6 +48,7 @@ export default function SupplierProductsPage() {
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [paywallOpen, setPaywallOpen] = useState(false);
+  const [bulkOpen, setBulkOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<ProductForm>(emptyForm);
   const [saving, setSaving] = useState(false);
@@ -200,6 +202,22 @@ export default function SupplierProductsPage() {
     setDialogOpen(true);
   };
 
+  const handleBulkImportClick = () => {
+    // Same rule as adding a single product: publishing needs an active supplier plan.
+    if (!isPaidSubscriber) {
+      toast.message('Subscription required to add products', {
+        description: 'Activate a manufacturer plan to upload and publish listings.',
+      });
+      setPaywallOpen(true);
+      return;
+    }
+    if (!company) {
+      toast.error('Supplier company profile not found. Please log in.');
+      return;
+    }
+    setBulkOpen(true);
+  };
+
   return (
     <DashboardLayout>
       <PageMeta
@@ -214,12 +232,21 @@ export default function SupplierProductsPage() {
               <h1 className="text-xl font-bold text-foreground">My Products</h1>
               <p className="text-sm text-muted-foreground">Manage your product listings</p>
             </div>
-            <Button
-              onClick={handleAddProductClick}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2 text-sm font-semibold"
-            >
-              <Plus className="w-4 h-4" /> Add Product
-            </Button>
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <Button
+                variant="outline"
+                onClick={handleBulkImportClick}
+                className="gap-2 border-border text-sm font-semibold text-primary"
+              >
+                <Upload className="w-4 h-4" /> Bulk Import
+              </Button>
+              <Button
+                onClick={handleAddProductClick}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2 text-sm font-semibold"
+              >
+                <Plus className="w-4 h-4" /> Add Product
+              </Button>
+            </div>
             <Dialog open={dialogOpen} onOpenChange={handleDialogOpenChange}>
               <DialogContent className="max-w-[calc(100%-2rem)] md:max-w-xl bg-card border-border max-h-[90dvh] overflow-y-auto">
                 <DialogHeader>
@@ -526,6 +553,17 @@ export default function SupplierProductsPage() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* ── Bulk import from a CSV file ── */}
+      {company && (
+        <BulkProductImportDialog
+          open={bulkOpen}
+          onOpenChange={setBulkOpen}
+          companyId={company.id}
+          categories={categories}
+          onImported={fetchProducts}
+        />
+      )}
 
       {/* ── Promote Product Dialog (additive, zero changes to products page) ── */}
       {promoteProduct && company && (
